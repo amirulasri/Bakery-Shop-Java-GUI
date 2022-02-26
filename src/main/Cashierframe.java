@@ -4,6 +4,7 @@ import javax.swing.JFrame;
 import javax.swing.JPanel;
 import javax.swing.border.EmptyBorder;
 import javax.swing.GroupLayout;
+import javax.swing.ImageIcon;
 import javax.swing.GroupLayout.Alignment;
 import javax.swing.JLabel;
 import javax.swing.JTextField;
@@ -32,6 +33,7 @@ public class Cashierframe extends JFrame {
 		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
 		setContentPane(contentPane);
 		setLocationRelativeTo(null);
+		setIconImage(new ImageIcon(this.getClass().getResource("/main/logo/logo.png")).getImage());
 		
 		JLabel lblNewLabel = new JLabel("Quantity");
 		

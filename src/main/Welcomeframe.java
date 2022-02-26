@@ -32,6 +32,7 @@ public class Welcomeframe extends JFrame {
 		setLocationRelativeTo(null);
 		getContentPane().setLayout(null);
 		progressBar.setVisible(false);
+		setIconImage(new ImageIcon(this.getClass().getResource("/main/logo/logo.png")).getImage());
 
 		JPanel panel = new JPanel();
 		panel.setBackground(new Color(204, 51, 102));
@@ -58,7 +59,7 @@ public class Welcomeframe extends JFrame {
 		getContentPane().add(panel_1);
 
 		JLabel lblNewLabel_1 = new JLabel("");
-		lblNewLabel_1.setIcon(new ImageIcon(Welcomeframe.class.getResource("/main/logo/logo.png")));
+		lblNewLabel_1.setIcon(new ImageIcon(this.getClass().getResource("/main/logo/logo.png")));
 
 		JLabel lblNewLabel_2 = new JLabel("Bakery Shop");
 		lblNewLabel_2.setForeground(Color.WHITE);
