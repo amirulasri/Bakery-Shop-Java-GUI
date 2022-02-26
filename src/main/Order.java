@@ -15,7 +15,8 @@ public class Order extends JFrame {
 	 * Create the frame.
 	 */
 	public Order() {
-		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+		pack();
+		setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
 		setBounds(100, 100, 450, 300);
 		setIconImage(new ImageIcon(this.getClass().getResource("/main/logo/logo.png")).getImage());
 		contentPane = new JPanel();

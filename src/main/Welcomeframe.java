@@ -16,14 +16,13 @@ public class Welcomeframe extends JFrame {
 	 * 
 	 */
 	private static final long serialVersionUID = 1L;
-	Cashierframe frame2 = new Cashierframe();
 
 	/**
 	 * Create the application.
 	 */
 	JProgressBar progressBar = new JProgressBar();
+	JLabel lblNewLabel_3 = new JLabel("Welcome! Starting up...");
 	public Welcomeframe() {
-
 		setUndecorated(true);
 		setResizable(false);
 		setTitle("Cashier");
@@ -31,26 +30,38 @@ public class Welcomeframe extends JFrame {
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		setLocationRelativeTo(null);
 		getContentPane().setLayout(null);
-		progressBar.setVisible(false);
 		setIconImage(new ImageIcon(this.getClass().getResource("/main/logo/logo.png")).getImage());
 
 		JPanel panel = new JPanel();
 		panel.setBackground(new Color(204, 51, 102));
 		panel.setBounds(0, 306, 766, 81);
 		getContentPane().add(panel);
+		
+		lblNewLabel_3.setFont(new Font("Tahoma", Font.PLAIN, 14));
+		lblNewLabel_3.setForeground(Color.WHITE);
 
 		
 		GroupLayout gl_panel = new GroupLayout(panel);
-		gl_panel.setHorizontalGroup(gl_panel.createParallelGroup(Alignment.TRAILING).addGroup(Alignment.LEADING,
-				gl_panel.createSequentialGroup().addGap(31)
-						.addComponent(progressBar, GroupLayout.PREFERRED_SIZE, 697, GroupLayout.PREFERRED_SIZE)
-						.addContainerGap(38, Short.MAX_VALUE)));
+		gl_panel.setHorizontalGroup(
+			gl_panel.createParallelGroup(Alignment.LEADING)
+				.addGroup(gl_panel.createSequentialGroup()
+					.addGap(31)
+					.addGroup(gl_panel.createParallelGroup(Alignment.LEADING)
+						.addComponent(lblNewLabel_3)
+						.addComponent(progressBar, GroupLayout.PREFERRED_SIZE, 697, GroupLayout.PREFERRED_SIZE))
+					.addContainerGap(38, Short.MAX_VALUE))
+		);
+		progressBar.setVisible(false);
+		gl_panel.setVerticalGroup(
+			gl_panel.createParallelGroup(Alignment.TRAILING)
+				.addGroup(gl_panel.createSequentialGroup()
+					.addContainerGap(15, Short.MAX_VALUE)
+					.addComponent(lblNewLabel_3)
+					.addPreferredGap(ComponentPlacement.RELATED)
+					.addComponent(progressBar, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
+					.addGap(32))
+		);
 		progressBar.setForeground(new Color(51, 0, 153));
-		gl_panel.setVerticalGroup(gl_panel.createParallelGroup(Alignment.TRAILING)
-				.addGroup(gl_panel
-						.createSequentialGroup().addContainerGap(35, Short.MAX_VALUE).addComponent(progressBar,
-								GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
-						.addGap(32)));
 		panel.setLayout(gl_panel);
 
 		JPanel panel_1 = new JPanel();
