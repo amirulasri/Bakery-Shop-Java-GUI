@@ -32,7 +32,7 @@ public class Cashierframe extends JFrame {
 	 * Create the frame.
 	 */
 	public Cashierframe() throws IOException{
-		Createneworder neworderframe = new Createneworder();
+		NewOrder neworderframe = new NewOrder();
 		setTitle("Bakery Shop");
 		try {
             for (javax.swing.UIManager.LookAndFeelInfo info : javax.swing.UIManager.getInstalledLookAndFeels()) {
@@ -51,7 +51,7 @@ public class Cashierframe extends JFrame {
             java.util.logging.Logger.getLogger(Main.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         }
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		setBounds(100, 100, 1016, 511);
+		setBounds(100, 100, 993, 511);
 		
 		JMenuBar menuBar = new JMenuBar();
 		setJMenuBar(menuBar);
