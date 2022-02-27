@@ -12,20 +12,28 @@ import javax.swing.LayoutStyle.ComponentPlacement;
 import javax.swing.JButton;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
+import java.io.IOException;
 import java.awt.Font;
+import java.awt.Color;
+import javax.swing.JTable;
+import javax.swing.table.DefaultTableModel;
+import javax.swing.JScrollPane;
+import java.awt.Cursor;
+import javax.swing.JMenuBar;
+import javax.swing.JMenu;
+import javax.swing.JMenuItem;
 
 public class Cashierframe extends JFrame {
-	Order frame3 = new Order();
 
 	private JPanel contentPane;
-	private JTextField quantity;
-	private JTextField price;
-	private JTextField resultdisplay;
+	private JTable table;
 
 	/**
 	 * Create the frame.
 	 */
-	public Cashierframe() {
+	public Cashierframe() throws IOException{
+		Createneworder neworderframe = new Createneworder();
+		setTitle("Bakery Shop");
 		try {
             for (javax.swing.UIManager.LookAndFeelInfo info : javax.swing.UIManager.getInstalledLookAndFeels()) {
                 if ("Windows".equals(info.getName())) {
@@ -43,86 +51,87 @@ public class Cashierframe extends JFrame {
             java.util.logging.Logger.getLogger(Main.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         }
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		setBounds(100, 100, 766, 401);
+		setBounds(100, 100, 1016, 511);
+		
+		JMenuBar menuBar = new JMenuBar();
+		setJMenuBar(menuBar);
+		
+		JMenu mnNewMenu = new JMenu("Tools");
+		menuBar.add(mnNewMenu);
+		
+		JMenuItem mntmNewMenuItem = new JMenuItem("Settings");
+		mntmNewMenuItem.setIcon(new ImageIcon(Cashierframe.class.getResource("/main/logo/gear.png")));
+		mnNewMenu.add(mntmNewMenuItem);
+		
+		JMenu mnNewMenu_1 = new JMenu("Help");
+		menuBar.add(mnNewMenu_1);
+		
+		JMenuItem mntmNewMenuItem_1 = new JMenuItem("Read manual");
+		mntmNewMenuItem_1.setIcon(new ImageIcon(Cashierframe.class.getResource("/main/logo/manual.png")));
+		mnNewMenu_1.add(mntmNewMenuItem_1);
+		
+		JMenuItem mntmNewMenuItem_2 = new JMenuItem("About");
+		mntmNewMenuItem_2.setIcon(new ImageIcon(Cashierframe.class.getResource("/main/logo/about.png")));
+		mnNewMenu_1.add(mntmNewMenuItem_2);
 		contentPane = new JPanel();
-		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
+		contentPane.setBackground(new Color(70, 18, 32));
+		contentPane.setBorder(null);
 		setContentPane(contentPane);
-		setLocationRelativeTo(null);
-		setIconImage(new ImageIcon(this.getClass().getResource("/main/logo/logo.png")).getImage());
 		
-		JLabel lblNewLabel = new JLabel("Quantity");
+		JScrollPane scrollPane = new JScrollPane();
+		scrollPane.setCursor(Cursor.getPredefinedCursor(Cursor.DEFAULT_CURSOR));
 		
-		quantity = new JTextField();
-		quantity.setColumns(10);
+		JLabel lblNewLabel = new JLabel("Orders");
+		lblNewLabel.setIcon(new ImageIcon(Cashierframe.class.getResource("/main/logo/ordericon.png")));
+		lblNewLabel.setForeground(Color.WHITE);
+		lblNewLabel.setFont(new Font("Comic Sans MS", Font.PLAIN, 24));
 		
-		JLabel lblNewLabel_1 = new JLabel("Price");
-		
-		price = new JTextField();
-		price.setColumns(10);
-		
-		JButton btnNewButton = new JButton("Calculate");
+		JButton btnNewButton = new JButton("+ New Order");
+		btnNewButton.setFocusable(false);
+		btnNewButton.setBackground(new Color(218, 98, 125));
 		btnNewButton.addMouseListener(new MouseAdapter() {
 			@Override
 			public void mouseClicked(MouseEvent e) {
-				//CODING KAT SINI
-				int quantityvalue = Integer.parseInt(quantity.getText());
-				Double pricevalue = Double.parseDouble(price.getText());
-				
-				double result = quantityvalue * pricevalue;
-				
-				resultdisplay.setText(String.valueOf(result));
+				neworderframe.setVisible(true);
 			}
 		});
-		
-		resultdisplay = new JTextField();
-		resultdisplay.setFont(new Font("Tahoma", Font.PLAIN, 32));
-		resultdisplay.setColumns(10);
-		
-		JButton btnNewButton_1 = new JButton("LIST ORDER");
-		btnNewButton_1.addMouseListener(new MouseAdapter() {
-			@Override
-			public void mouseClicked(MouseEvent e) {
-				frame3.setVisible(true);
-				frame3.setLocationRelativeTo(null);
-			}
-		});
+		btnNewButton.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
+		btnNewButton.setFont(new Font("Tahoma", Font.PLAIN, 13));
 		GroupLayout gl_contentPane = new GroupLayout(contentPane);
 		gl_contentPane.setHorizontalGroup(
-			gl_contentPane.createParallelGroup(Alignment.LEADING)
-				.addGroup(gl_contentPane.createSequentialGroup()
-					.addGap(30)
-					.addGroup(gl_contentPane.createParallelGroup(Alignment.LEADING)
-						.addComponent(resultdisplay, GroupLayout.PREFERRED_SIZE, 357, GroupLayout.PREFERRED_SIZE)
-						.addComponent(btnNewButton)
-						.addGroup(gl_contentPane.createSequentialGroup()
-							.addGroup(gl_contentPane.createParallelGroup(Alignment.LEADING, false)
-								.addComponent(lblNewLabel_1)
-								.addComponent(quantity, GroupLayout.DEFAULT_SIZE, 272, Short.MAX_VALUE)
-								.addComponent(lblNewLabel)
-								.addComponent(price))
-							.addGap(172)
-							.addComponent(btnNewButton_1)))
-					.addContainerGap(177, Short.MAX_VALUE))
+			gl_contentPane.createParallelGroup(Alignment.TRAILING)
+				.addGroup(Alignment.LEADING, gl_contentPane.createSequentialGroup()
+					.addContainerGap()
+					.addComponent(lblNewLabel)
+					.addPreferredGap(ComponentPlacement.RELATED, 646, Short.MAX_VALUE)
+					.addComponent(btnNewButton, GroupLayout.PREFERRED_SIZE, 186, GroupLayout.PREFERRED_SIZE)
+					.addContainerGap())
+				.addComponent(scrollPane, GroupLayout.DEFAULT_SIZE, 1000, Short.MAX_VALUE)
 		);
 		gl_contentPane.setVerticalGroup(
 			gl_contentPane.createParallelGroup(Alignment.LEADING)
 				.addGroup(gl_contentPane.createSequentialGroup()
-					.addGap(35)
-					.addComponent(lblNewLabel)
+					.addContainerGap()
+					.addGroup(gl_contentPane.createParallelGroup(Alignment.LEADING)
+						.addComponent(lblNewLabel)
+						.addComponent(btnNewButton, GroupLayout.PREFERRED_SIZE, 51, GroupLayout.PREFERRED_SIZE))
 					.addPreferredGap(ComponentPlacement.RELATED)
-					.addComponent(quantity, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
-					.addGap(45)
-					.addComponent(lblNewLabel_1)
-					.addPreferredGap(ComponentPlacement.RELATED)
-					.addGroup(gl_contentPane.createParallelGroup(Alignment.BASELINE)
-						.addComponent(price, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
-						.addComponent(btnNewButton_1))
-					.addGap(28)
-					.addComponent(btnNewButton)
-					.addGap(56)
-					.addComponent(resultdisplay, GroupLayout.PREFERRED_SIZE, 51, GroupLayout.PREFERRED_SIZE)
-					.addContainerGap(34, Short.MAX_VALUE))
+					.addComponent(scrollPane, GroupLayout.DEFAULT_SIZE, 391, Short.MAX_VALUE)
+					.addGap(0))
 		);
+		
+		table = new JTable();
+		scrollPane.setViewportView(table);
+		table.setModel(new DefaultTableModel(
+			new Object[][] {
+			},
+			new String[] {
+				"Name", "Phone No", "New column", "New column", "New column"
+			}
+		));
+		table.getColumnModel().getColumn(0).setPreferredWidth(195);
 		contentPane.setLayout(gl_contentPane);
+		setLocationRelativeTo(null);
+		setIconImage(new ImageIcon(this.getClass().getResource("/main/logo/logo.png")).getImage());
 	}
 }

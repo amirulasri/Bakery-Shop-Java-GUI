@@ -11,7 +11,7 @@ public class Main {
 			welcomeframe.progressBar.setVisible(true);
 			try {
 				for (int i = 0; i <= 100; i+=4) {
-					Thread.sleep(100);
+					Thread.sleep(10);
 					welcomeframe.progressBar.setValue(i);
 					welcomeframe.lblNewLabel_3.setText("Welcome! Starting up " + i + "%");
 				}
