@@ -22,6 +22,7 @@ import java.awt.Cursor;
 import javax.swing.JMenuBar;
 import javax.swing.JMenu;
 import javax.swing.JMenuItem;
+import javax.swing.JOptionPane;
 
 public class Cashierframe extends JFrame {
 
@@ -86,13 +87,22 @@ public class Cashierframe extends JFrame {
 		lblNewLabel.setForeground(Color.WHITE);
 		lblNewLabel.setFont(new Font("Comic Sans MS", Font.PLAIN, 24));
 		
-		JButton btnNewButton = new JButton("+ New Order");
+		JButton btnNewButton = new JButton("New Order");
+		btnNewButton.setIcon(new ImageIcon(Cashierframe.class.getResource("/main/logo/add.png")));
 		btnNewButton.setFocusable(false);
 		btnNewButton.setBackground(new Color(218, 98, 125));
 		btnNewButton.addMouseListener(new MouseAdapter() {
 			@Override
 			public void mouseClicked(MouseEvent e) {
-				neworderframe.setVisible(true);
+				String orderid = JOptionPane.showInputDialog("To create new order, enter new order ID");
+				if(orderid == null || (orderid != null && ("".equals(orderid))))   
+				{
+				    
+				}else {
+					System.out.println(orderid);
+					
+					neworderframe.setVisible(true);
+				}
 			}
 		});
 		btnNewButton.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));

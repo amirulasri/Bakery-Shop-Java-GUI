@@ -55,7 +55,7 @@ public class NewOrder extends JFrame {
 		setTitle("Bakery Shop");
 		setIconImage(Toolkit.getDefaultToolkit().getImage(NewOrder.class.getResource("/main/logo/logo.png")));
 		setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
-		setBounds(100, 100, 1017, 546);
+		setBounds(100, 100, 1023, 546);
 		contentPane = new JPanel();
 		contentPane.setBackground(new Color(250, 243, 221));
 		contentPane.setBorder(null);
