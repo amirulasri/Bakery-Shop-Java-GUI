@@ -13,6 +13,10 @@ import javax.swing.JButton;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.io.IOException;
+import java.sql.Connection;
+import java.sql.DriverManager;
+import java.sql.SQLException;
+import java.util.Iterator;
 import java.awt.Font;
 import java.awt.Color;
 import javax.swing.JTable;
@@ -28,12 +32,17 @@ public class Cashierframe extends JFrame {
 
 	private JPanel contentPane;
 	private JTable table;
-
-	/**
-	 * Create the frame.
-	 */
+	
+	public void displaydata() {
+		Iterator itrcustomer = Main.getcustomer().iterator();
+		while(itrcustomer.hasNext()) {
+			String customerdatalist = (String) itrcustomer.next();
+			System.out.println(customerdatalist);
+		}
+	}
+	
 	public Cashierframe() throws IOException{
-		NewOrder neworderframe = new NewOrder();
+		displaydata();
 		setTitle("Bakery Shop");
 		try {
             for (javax.swing.UIManager.LookAndFeelInfo info : javax.swing.UIManager.getInstalledLookAndFeels()) {
@@ -94,14 +103,23 @@ public class Cashierframe extends JFrame {
 		btnNewButton.addMouseListener(new MouseAdapter() {
 			@Override
 			public void mouseClicked(MouseEvent e) {
-				String orderid = JOptionPane.showInputDialog("To create new order, enter new order ID");
+				String orderid = JOptionPane.showInputDialog(null, "To create new order, enter new order ID", "Enter new order ID", JOptionPane.INFORMATION_MESSAGE);
 				if(orderid == null || (orderid != null && ("".equals(orderid))))   
 				{
 				    
 				}else {
 					System.out.println(orderid);
-					
-					neworderframe.setVisible(true);
+					NewOrder neworderframe;
+					try {
+						neworderframe = new NewOrder();
+						neworderframe.setVisible(true);
+						neworderframe.lblNewLabel_2.setText("Create new order for ID " + orderid);
+						
+						
+					} catch (IOException e1) {
+						// TODO Auto-generated catch block
+						e1.printStackTrace();
+					}
 				}
 			}
 		});
@@ -136,7 +154,7 @@ public class Cashierframe extends JFrame {
 			new Object[][] {
 			},
 			new String[] {
-				"Name", "Phone No", "New column", "New column", "New column"
+				"Name", "Phone No", "E-mail", "Order No", "Total Price"
 			}
 		));
 		table.getColumnModel().getColumn(0).setPreferredWidth(195);
