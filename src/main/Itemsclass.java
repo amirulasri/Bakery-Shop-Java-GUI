@@ -11,7 +11,7 @@ public class Itemsclass extends Ordersclass{
         quantity = 0;
     }
     
-    public Itemsclass(String orderid, String itemname, int quantity, boolean discount){
+    public Itemsclass(String orderid, String itemname, int quantity){
         this.orderid = orderid;
         this.itemname = itemname;
         this.quantity = quantity;

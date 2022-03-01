@@ -6,6 +6,8 @@ import javax.swing.GroupLayout;
 import javax.swing.GroupLayout.Alignment;
 import java.awt.Color;
 import javax.swing.JLabel;
+import javax.swing.JOptionPane;
+
 import java.awt.Font;
 import javax.swing.ImageIcon;
 import javax.swing.JScrollPane;
@@ -25,11 +27,14 @@ import javax.swing.JSpinner;
 import javax.swing.JButton;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
+import javax.swing.SpinnerNumberModel;
+import javax.swing.JTextField;
 
 public class ItemSelector extends JFrame {
 
 	private JPanel contentPane;
 	private JTable table;
+	private JTextField textField;
 
 	/**
 	 * Create the frame.
@@ -44,7 +49,7 @@ public class ItemSelector extends JFrame {
 		setIconImage(Toolkit.getDefaultToolkit().getImage(ItemSelector.class.getResource("/main/logo/logo.png")));
 		setTitle("Bakery Shop");
 		setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
-		setBounds(100, 100, 425, 539);
+		setBounds(100, 100, 750, 539);
 		contentPane = new JPanel();
 		contentPane.setBackground(new Color(255, 225, 168));
 		contentPane.setBorder(null);
@@ -81,29 +86,78 @@ public class ItemSelector extends JFrame {
 
 		String[] bakerylistArray = bakerylist.toArray(new String[] {});
 		
-		JComboBox comboBox = new JComboBox(bakerylistArray);
+		JComboBox itemcombobox = new JComboBox(bakerylistArray);
 
-		JSpinner spinner = new JSpinner();
+		JSpinner quantity = new JSpinner();
+		quantity.setModel(new SpinnerNumberModel( 1, 1, null, 1));
+		
 
 		JButton btnNewButton = new JButton("Add");
 		btnNewButton.addMouseListener(new MouseAdapter() {
 			@Override
 			public void mouseClicked(MouseEvent e) {
-				//Main.setnewcustomer();
+				//ADD ITEMS TO LIST ORDERS FOR CUSTOMER
+				int selecteditem = 0;
+				int quantityno;
+				try {
+					selecteditem = itemcombobox.getSelectedIndex();
+					quantityno = (Integer) quantity.getValue();
+					
+					if(selecteditem != 0) {
+						Main.getitems().add(new Itemsclass(NewOrder.getorderid(), String.valueOf(itemcombobox.getSelectedItem()), (Integer)quantity.getValue()));
+					}else {
+						JOptionPane.showMessageDialog(null, "Please select item", "No item selected", JOptionPane.ERROR_MESSAGE);
+					}
+					
+					System.out.println(quantityno);
+					System.out.println(selecteditem);
+				}catch(Exception error) {
+					System.out.println("Error: " + error);
+				}
 			}
 		});
+		
+		JLabel lblNewLabel = new JLabel("Items");
+		lblNewLabel.setFont(new Font("Tahoma", Font.PLAIN, 14));
+		
+		JLabel lblNewLabel_1 = new JLabel("Quantity");
+		lblNewLabel_1.setFont(new Font("Tahoma", Font.PLAIN, 14));
+		
+		JButton btnNewButton_1 = new JButton("Save");
+		
+		textField = new JTextField();
+		textField.setColumns(10);
+		
+		JLabel lblNewLabel_3 = new JLabel("Item Number");
+		lblNewLabel_3.setFont(new Font("Tahoma", Font.PLAIN, 14));
+		
+		JButton btnNewButton_2 = new JButton("Delete");
 		GroupLayout gl_contentPane = new GroupLayout(contentPane);
 		gl_contentPane.setHorizontalGroup(
-			gl_contentPane.createParallelGroup(Alignment.TRAILING)
-				.addComponent(panel, GroupLayout.DEFAULT_SIZE, GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-				.addComponent(scrollPane, GroupLayout.DEFAULT_SIZE, 409, Short.MAX_VALUE)
-				.addGroup(Alignment.LEADING, gl_contentPane.createSequentialGroup()
+			gl_contentPane.createParallelGroup(Alignment.LEADING)
+				.addComponent(panel, GroupLayout.DEFAULT_SIZE, 734, Short.MAX_VALUE)
+				.addGroup(gl_contentPane.createSequentialGroup()
 					.addContainerGap()
-					.addGroup(gl_contentPane.createParallelGroup(Alignment.TRAILING, false)
-						.addComponent(spinner, Alignment.LEADING)
-						.addComponent(comboBox, Alignment.LEADING, 0, 196, Short.MAX_VALUE))
-					.addGap(142)
+					.addGroup(gl_contentPane.createParallelGroup(Alignment.LEADING)
+						.addComponent(lblNewLabel_1)
+						.addComponent(lblNewLabel, GroupLayout.PREFERRED_SIZE, 55, GroupLayout.PREFERRED_SIZE))
+					.addPreferredGap(ComponentPlacement.RELATED)
+					.addGroup(gl_contentPane.createParallelGroup(Alignment.LEADING, false)
+						.addComponent(quantity)
+						.addComponent(itemcombobox, 0, 196, Short.MAX_VALUE))
+					.addGap(55)
 					.addComponent(btnNewButton)
+					.addGap(71)
+					.addComponent(lblNewLabel_3)
+					.addPreferredGap(ComponentPlacement.UNRELATED)
+					.addComponent(textField, GroupLayout.PREFERRED_SIZE, 74, GroupLayout.PREFERRED_SIZE)
+					.addPreferredGap(ComponentPlacement.RELATED)
+					.addComponent(btnNewButton_2)
+					.addGap(34))
+				.addComponent(scrollPane, GroupLayout.DEFAULT_SIZE, 734, Short.MAX_VALUE)
+				.addGroup(Alignment.TRAILING, gl_contentPane.createSequentialGroup()
+					.addContainerGap(613, Short.MAX_VALUE)
+					.addComponent(btnNewButton_1, GroupLayout.PREFERRED_SIZE, 111, GroupLayout.PREFERRED_SIZE)
 					.addContainerGap())
 		);
 		gl_contentPane.setVerticalGroup(
@@ -112,12 +166,21 @@ public class ItemSelector extends JFrame {
 					.addComponent(panel, GroupLayout.PREFERRED_SIZE, 73, GroupLayout.PREFERRED_SIZE)
 					.addPreferredGap(ComponentPlacement.UNRELATED)
 					.addGroup(gl_contentPane.createParallelGroup(Alignment.BASELINE)
-						.addComponent(comboBox, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
-						.addComponent(btnNewButton))
+						.addComponent(itemcombobox, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
+						.addComponent(lblNewLabel)
+						.addComponent(btnNewButton)
+						.addComponent(textField, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
+						.addComponent(lblNewLabel_3)
+						.addComponent(btnNewButton_2))
 					.addPreferredGap(ComponentPlacement.RELATED)
-					.addComponent(spinner, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
-					.addGap(12)
-					.addComponent(scrollPane, GroupLayout.DEFAULT_SIZE, 355, Short.MAX_VALUE))
+					.addGroup(gl_contentPane.createParallelGroup(Alignment.BASELINE)
+						.addComponent(quantity, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
+						.addComponent(lblNewLabel_1))
+					.addGap(31)
+					.addComponent(scrollPane, GroupLayout.DEFAULT_SIZE, 306, Short.MAX_VALUE)
+					.addPreferredGap(ComponentPlacement.RELATED)
+					.addComponent(btnNewButton_1)
+					.addGap(6))
 		);
 
 		table = new JTable();
