@@ -24,6 +24,8 @@ import javax.swing.JMenuItem;
 import javax.swing.JOptionPane;
 import java.text.SimpleDateFormat;
 import java.util.Date;
+import java.awt.event.WindowAdapter;
+import java.awt.event.WindowEvent;
 
 public class Cashierframe extends JFrame {
 	
@@ -46,6 +48,17 @@ public class Cashierframe extends JFrame {
 	}
 	
 	public Cashierframe() throws IOException{
+		addWindowListener(new WindowAdapter() {
+			@Override
+			public void windowClosing(WindowEvent e) {
+				String selectorbutton[] = {"Yes","No"};
+		        int PromptResult = JOptionPane.showOptionDialog(null,"Are you sure you want to exit?. All saved order will be lost.","Exit Order Window",JOptionPane.DEFAULT_OPTION,JOptionPane.WARNING_MESSAGE,null,selectorbutton,selectorbutton[1]);
+		        if(PromptResult==JOptionPane.YES_OPTION)
+		        {
+		        	System.exit(0);
+		        }
+			}
+		});
 		displaydata();
 		setTitle("Bakery Shop");
 		try {
@@ -64,7 +77,7 @@ public class Cashierframe extends JFrame {
         } catch (javax.swing.UnsupportedLookAndFeelException ex) {
             java.util.logging.Logger.getLogger(Main.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         }
-		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+		setDefaultCloseOperation(JFrame.DO_NOTHING_ON_CLOSE);
 		setBounds(100, 100, 993, 511);
 		
 		JMenuBar menuBar = new JMenuBar();
@@ -117,17 +130,17 @@ public class Cashierframe extends JFrame {
 						
 						boolean duplicateorderid = containsOrderId(orderid);
 						if(duplicateorderid) {
-							System.out.println("DUPLICATE");					
+							JOptionPane.showMessageDialog(null, "The Order ID you entered exists. Enter another new Order ID", "Duplicate Order ID", JOptionPane.ERROR_MESSAGE);
 						}else {
 							System.out.println("NOT FOUND");
+							Date date = new Date();
+							
+							Main.getorders().add(new Ordersclass(orderid, newdateformat.format(date), newtimeformat.format(date)));
+							
+							neworderframe = new NewOrder(orderid);
+							neworderframe.setVisible(true);						
 						}
 						
-						Date date = new Date();
-						
-						Main.getorders().add(new Ordersclass(orderid, newdateformat.format(date), newtimeformat.format(date)));
-						
-						neworderframe = new NewOrder(orderid);
-						neworderframe.setVisible(true);						
 						
 					} catch (IOException e1) {
 						// TODO Auto-generated catch block

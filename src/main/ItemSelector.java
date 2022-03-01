@@ -40,19 +40,17 @@ public class ItemSelector extends JFrame {
 	private JPanel contentPane;
 	private JTable table;
 	private JTextField deletenumberfield;
-	
 	DefaultTableModel listitemmodel;
 
 	/**
 	 * Create the frame.
 	 */
-
-	// GET ORDER ID FROM NEWORDER CLASS
-	private String getorderid() {
-		return NewOrder.getorderid();
+	
+	private boolean containsOrderIdAndNumber(final String orderid){		
+	    return Main.getitems().stream().filter(order -> order.getorderid().equals(orderid)).findFirst().isPresent();
 	}
 
-	public ItemSelector() throws IOException {
+	public ItemSelector(final String orderid) throws IOException {
 		setIconImage(Toolkit.getDefaultToolkit().getImage(ItemSelector.class.getResource("/main/logo/logo.png")));
 		setTitle("Bakery Shop");
 		setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
@@ -135,6 +133,12 @@ public class ItemSelector extends JFrame {
 		lblNewLabel_1.setFont(new Font("Tahoma", Font.PLAIN, 14));
 		
 		JButton btnNewButton_1 = new JButton("Save");
+		btnNewButton_1.addMouseListener(new MouseAdapter() {
+			@Override
+			public void mouseClicked(MouseEvent e) {
+				cleartable();
+			}
+		});
 		
 		deletenumberfield = new JTextField();
 		deletenumberfield.setColumns(10);
@@ -147,7 +151,7 @@ public class ItemSelector extends JFrame {
 			@Override
 			public void mouseClicked(MouseEvent e) {
 				//DELETE ITEMS HERE
-				Predicate<Itemsclass> condition2 = p->p.getitemnumber()==Integer.parseInt(deletenumberfield.getText()) && p.orderid == getorderid();
+				Predicate<Itemsclass> condition2 = p->p.getitemnumber()==Integer.parseInt(deletenumberfield.getText()) && p.orderid == orderid;
 				Main.getitems().removeIf(condition2);
 				showdata();
 			}
@@ -231,7 +235,7 @@ public class ItemSelector extends JFrame {
 		table.getColumnModel().getColumn(2).setPreferredWidth(62);
 		scrollPane.setViewportView(table);
 
-		JLabel lblNewLabel_2 = new JLabel("Items for order ID: " + getorderid());
+		JLabel lblNewLabel_2 = new JLabel("Items for order ID: " + orderid);
 
 		lblNewLabel_2.setIcon(new ImageIcon(ItemSelector.class.getResource("/main/logo/contract.png")));
 		lblNewLabel_2.setForeground(Color.WHITE);
@@ -252,8 +256,14 @@ public class ItemSelector extends JFrame {
 	private void showdata() {
 		//ADD DATA HERE
 		listitemmodel.setRowCount(0);
-		for(int i = 0; i < Main.getitems().size(); i++) {			
-			listitemmodel.addRow(new Object[]{Main.getitems().get(i).getitemnumber(), Main.getitems().get(i).getitemname(), Main.getitems().get(i).getquantity(), "0"});
+		listitemmodel.fireTableDataChanged();
+		for(int i = 0; i < Main.getitems().size(); i++) {
+			System.out.println(Main.getitems().get(i).getorderid());			
+			listitemmodel.addRow(new Object[]{Main.getitems().get(i).getitemnumber(), Main.getitems().get(i).getorderid(), Main.getitems().get(i).getquantity(), "0"});
 		}
+	}
+	
+	private void cleartable() {
+		listitemmodel.setRowCount(0);
 	}
 }
