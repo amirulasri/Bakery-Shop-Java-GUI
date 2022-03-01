@@ -2,20 +2,15 @@ package main;
 
 import javax.swing.JFrame;
 import javax.swing.JPanel;
-import javax.swing.border.EmptyBorder;
 import javax.swing.GroupLayout;
 import javax.swing.ImageIcon;
 import javax.swing.GroupLayout.Alignment;
 import javax.swing.JLabel;
-import javax.swing.JTextField;
 import javax.swing.LayoutStyle.ComponentPlacement;
 import javax.swing.JButton;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.io.IOException;
-import java.sql.Connection;
-import java.sql.DriverManager;
-import java.sql.SQLException;
 import java.util.Iterator;
 import java.awt.Font;
 import java.awt.Color;
@@ -27,8 +22,13 @@ import javax.swing.JMenuBar;
 import javax.swing.JMenu;
 import javax.swing.JMenuItem;
 import javax.swing.JOptionPane;
+import java.text.SimpleDateFormat;  
+import java.util.Date;
 
 public class Cashierframe extends JFrame {
+	
+	SimpleDateFormat newdateformat = new SimpleDateFormat("dd-MM-yyyy");
+	SimpleDateFormat newtimeformat = new SimpleDateFormat("hh:mm a");
 
 	private JPanel contentPane;
 	private JTable table;
@@ -108,13 +108,19 @@ public class Cashierframe extends JFrame {
 				{
 				    
 				}else {
-					System.out.println(orderid);
 					NewOrder neworderframe;
 					try {
-						neworderframe = new NewOrder();
-						neworderframe.setVisible(true);
-						neworderframe.lblNewLabel_2.setText("Create new order for ID " + orderid);
+						Date date = new Date();
 						
+						Main.getorders().add(new Ordersclass(orderid, newdateformat.format(date), newtimeformat.format(date)));
+						
+						//GET NEW INDEX ORDER AFTER ADD
+						int newaddedorderindex = Main.getorders().size() - 1;
+						Ordersclass objectname = Main.getorders().get(newaddedorderindex);
+						System.out.println(String.valueOf(objectname));
+						
+						neworderframe = new NewOrder(orderid, newaddedorderindex);
+						neworderframe.setVisible(true);						
 						
 					} catch (IOException e1) {
 						// TODO Auto-generated catch block

@@ -5,6 +5,7 @@ import java.util.ArrayList;
 public class Main {
 	static ArrayList<Customerclass> customers = new ArrayList<Customerclass>();
 	static ArrayList<Itemsclass> listitems = new ArrayList<Itemsclass>();
+	static ArrayList<Ordersclass> listorders = new ArrayList<Ordersclass>();
 
 	public static ArrayList<Customerclass> getcustomer() {
 		return customers;
@@ -13,10 +14,9 @@ public class Main {
 	public static ArrayList<Itemsclass> getitems() {
 		return listitems;
 	}
-
-	// CREATE ORDER
-	public void setnewcustomer(String orderid, String name, String phoneno, String email, boolean regularcustomer) {
-		customers.add(new Customerclass(orderid, name, phoneno, email, regularcustomer));
+	
+	public static ArrayList<Ordersclass> getorders() {
+		return listorders;
 	}
 
 	public static void main(String[] args) {
