@@ -43,7 +43,7 @@ public class NewOrder extends JFrame {
 		return orderid;
 	}
 
-	public NewOrder(String orderid, int indexneworder) throws IOException {
+	public NewOrder(String orderid) throws IOException {
 		addWindowListener(new WindowAdapter() {
 			@Override
 			public void windowClosed(WindowEvent e) {
@@ -58,6 +58,7 @@ public class NewOrder extends JFrame {
 		        if(PromptResult==JOptionPane.YES_OPTION)
 		        {
 		            Main.getorders().removeIf(Orders-> Orders.getorderid().equals(orderid));
+		            Main.getitems().removeIf(Items -> Items.getorderid().equals(orderid));
 		            dispose();
 		            System.out.println("ORDER DELETED");
 		        }

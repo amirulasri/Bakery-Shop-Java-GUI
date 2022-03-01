@@ -22,7 +22,7 @@ import javax.swing.JMenuBar;
 import javax.swing.JMenu;
 import javax.swing.JMenuItem;
 import javax.swing.JOptionPane;
-import java.text.SimpleDateFormat;  
+import java.text.SimpleDateFormat;
 import java.util.Date;
 
 public class Cashierframe extends JFrame {
@@ -32,6 +32,10 @@ public class Cashierframe extends JFrame {
 
 	private JPanel contentPane;
 	private JTable table;
+	
+	private boolean containsOrderId(final String orderid){
+	    return Main.getorders().stream().filter(order -> order.getorderid().equals(orderid)).findFirst().isPresent();
+	}
 	
 	public void displaydata() {
 		Iterator itrcustomer = Main.getcustomer().iterator();
@@ -110,15 +114,19 @@ public class Cashierframe extends JFrame {
 				}else {
 					NewOrder neworderframe;
 					try {
+						
+						boolean duplicateorderid = containsOrderId(orderid);
+						if(duplicateorderid) {
+							System.out.println("DUPLICATE");					
+						}else {
+							System.out.println("NOT FOUND");
+						}
+						
 						Date date = new Date();
 						
 						Main.getorders().add(new Ordersclass(orderid, newdateformat.format(date), newtimeformat.format(date)));
 						
-						//GET NEW INDEX ORDER AFTER ADD
-						int newaddedorderindex = Main.getorders().size() - 1;
-						Ordersclass objectname = Main.getorders().get(newaddedorderindex);
-						
-						neworderframe = new NewOrder(orderid, newaddedorderindex);
+						neworderframe = new NewOrder(orderid);
 						neworderframe.setVisible(true);						
 						
 					} catch (IOException e1) {
