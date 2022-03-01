@@ -117,7 +117,6 @@ public class Cashierframe extends JFrame {
 						//GET NEW INDEX ORDER AFTER ADD
 						int newaddedorderindex = Main.getorders().size() - 1;
 						Ordersclass objectname = Main.getorders().get(newaddedorderindex);
-						System.out.println(String.valueOf(objectname));
 						
 						neworderframe = new NewOrder(orderid, newaddedorderindex);
 						neworderframe.setVisible(true);						
