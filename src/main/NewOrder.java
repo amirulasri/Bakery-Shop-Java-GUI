@@ -22,6 +22,7 @@ import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
+import javax.swing.JCheckBox;
 
 public class NewOrder extends JFrame {
 
@@ -112,6 +113,9 @@ public class NewOrder extends JFrame {
 		
 		JLabel lblNewLabel = new JLabel("E-Mail");
 		lblNewLabel.setFont(new Font("Tahoma", Font.PLAIN, 14));
+		
+		JLabel lblNewLabel_5 = new JLabel("Regular Customer");
+		lblNewLabel_5.setFont(new Font("Tahoma", Font.PLAIN, 14));
 		GroupLayout gl_panel_2 = new GroupLayout(panel_2);
 		gl_panel_2.setHorizontalGroup(
 			gl_panel_2.createParallelGroup(Alignment.LEADING)
@@ -122,7 +126,8 @@ public class NewOrder extends JFrame {
 						.addComponent(lblNewLabel_4)
 						.addGroup(gl_panel_2.createParallelGroup(Alignment.TRAILING, false)
 							.addComponent(lblNewLabel, Alignment.LEADING, GroupLayout.DEFAULT_SIZE, GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-							.addComponent(lblNewLabel_3, Alignment.LEADING, GroupLayout.DEFAULT_SIZE, GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
+							.addComponent(lblNewLabel_3, Alignment.LEADING, GroupLayout.DEFAULT_SIZE, GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+						.addComponent(lblNewLabel_5))
 					.addContainerGap(64, Short.MAX_VALUE))
 		);
 		gl_panel_2.setVerticalGroup(
@@ -136,7 +141,9 @@ public class NewOrder extends JFrame {
 					.addComponent(lblNewLabel)
 					.addGap(46)
 					.addComponent(lblNewLabel_4)
-					.addContainerGap(108, Short.MAX_VALUE))
+					.addGap(34)
+					.addComponent(lblNewLabel_5)
+					.addContainerGap(60, Short.MAX_VALUE))
 		);
 		panel_2.setLayout(gl_panel_2);
 
@@ -164,6 +171,8 @@ public class NewOrder extends JFrame {
 		
 		textField_2 = new JTextField();
 		textField_2.setColumns(10);
+		
+		JCheckBox chckbxNewCheckBox = new JCheckBox("Yes");
 		GroupLayout gl_panel_1 = new GroupLayout(panel_1);
 		gl_panel_1.setHorizontalGroup(
 			gl_panel_1.createParallelGroup(Alignment.LEADING)
@@ -175,7 +184,8 @@ public class NewOrder extends JFrame {
 						.addComponent(textField_1, GroupLayout.DEFAULT_SIZE, 698, Short.MAX_VALUE)
 						.addComponent(btnNewButton, Alignment.TRAILING, GroupLayout.PREFERRED_SIZE, 88, GroupLayout.PREFERRED_SIZE)
 						.addComponent(textField_2, Alignment.TRAILING, GroupLayout.DEFAULT_SIZE, 698, Short.MAX_VALUE)
-						.addComponent(btnNewButton_1))
+						.addComponent(btnNewButton_1)
+						.addComponent(chckbxNewCheckBox))
 					.addContainerGap())
 		);
 		gl_panel_1.setVerticalGroup(
@@ -190,7 +200,9 @@ public class NewOrder extends JFrame {
 					.addComponent(textField_2, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
 					.addGap(41)
 					.addComponent(btnNewButton_1)
-					.addPreferredGap(ComponentPlacement.RELATED, 67, Short.MAX_VALUE)
+					.addPreferredGap(ComponentPlacement.RELATED, 27, Short.MAX_VALUE)
+					.addComponent(chckbxNewCheckBox)
+					.addGap(20)
 					.addComponent(btnNewButton)
 					.addContainerGap())
 		);

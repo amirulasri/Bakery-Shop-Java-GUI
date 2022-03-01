@@ -19,6 +19,7 @@ import java.io.FileReader;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.function.Predicate;
 
 import javax.swing.table.DefaultTableModel;
 import javax.swing.LayoutStyle.ComponentPlacement;
@@ -38,7 +39,7 @@ public class ItemSelector extends JFrame {
 	private static final long serialVersionUID = 1L;
 	private JPanel contentPane;
 	private JTable table;
-	private JTextField textField;
+	private JTextField deletenumberfield;
 	
 	DefaultTableModel listitemmodel;
 
@@ -95,29 +96,32 @@ public class ItemSelector extends JFrame {
 		JComboBox itemcombobox = new JComboBox(bakerylistArray);
 
 		JSpinner quantity = new JSpinner();
-		quantity.setModel(new SpinnerNumberModel( 1, 1, null, 1));
+		quantity.setModel(new SpinnerNumberModel(1, 1, null, 1));
 		
 
 		JButton btnNewButton = new JButton("Add");
 		btnNewButton.addMouseListener(new MouseAdapter() {
+			int lastitemnumber = 1;
 			@Override
 			public void mouseClicked(MouseEvent e) {
 				//ADD ITEMS TO LIST ORDERS FOR CUSTOMER
 				int selecteditem = 0;
-				int quantityno;				
+				int quantityno;
+				if(table.getRowCount() > 0) {				
+					lastitemnumber = (int) table.getModel().getValueAt(table.getRowCount() - 1, 0) + 1;
+				}
+				System.out.println("ROW TOTAL: " + lastitemnumber);
 				
 				try {
 					selecteditem = itemcombobox.getSelectedIndex();
 					quantityno = (Integer) quantity.getValue();
 					
 					if(selecteditem != 0) {
-						//Main.getitems().add(new Itemsclass(NewOrder.getorderid(), String.valueOf(itemcombobox.getSelectedItem()), (Integer)quantity.getValue()));
+						Main.getitems().add(new Itemsclass(NewOrder.getorderid(), lastitemnumber, String.valueOf(itemcombobox.getSelectedItem()), (Integer)quantity.getValue()));
+						showdata();
 					}else {
 						JOptionPane.showMessageDialog(null, "Please select item", "No item selected", JOptionPane.ERROR_MESSAGE);
 					}
-					
-					System.out.println(quantityno);
-					System.out.println(selecteditem);
 				}catch(Exception error) {
 					System.out.println("Error: " + error);
 				}
@@ -132,13 +136,22 @@ public class ItemSelector extends JFrame {
 		
 		JButton btnNewButton_1 = new JButton("Save");
 		
-		textField = new JTextField();
-		textField.setColumns(10);
+		deletenumberfield = new JTextField();
+		deletenumberfield.setColumns(10);
 		
 		JLabel lblNewLabel_3 = new JLabel("Item Number");
 		lblNewLabel_3.setFont(new Font("Tahoma", Font.PLAIN, 14));
 		
 		JButton btnNewButton_2 = new JButton("Delete");
+		btnNewButton_2.addMouseListener(new MouseAdapter() {
+			@Override
+			public void mouseClicked(MouseEvent e) {
+				//DELETE ITEMS HERE
+				Predicate<Itemsclass> condition2 = p->p.getitemnumber()==Integer.parseInt(deletenumberfield.getText()) && p.orderid == getorderid();
+				Main.getitems().removeIf(condition2);
+				showdata();
+			}
+		});
 		GroupLayout gl_contentPane = new GroupLayout(contentPane);
 		gl_contentPane.setHorizontalGroup(
 			gl_contentPane.createParallelGroup(Alignment.LEADING)
@@ -157,7 +170,7 @@ public class ItemSelector extends JFrame {
 					.addGap(113)
 					.addComponent(lblNewLabel_3)
 					.addPreferredGap(ComponentPlacement.RELATED)
-					.addComponent(textField, GroupLayout.PREFERRED_SIZE, 103, GroupLayout.PREFERRED_SIZE)
+					.addComponent(deletenumberfield, GroupLayout.PREFERRED_SIZE, 103, GroupLayout.PREFERRED_SIZE)
 					.addPreferredGap(ComponentPlacement.RELATED)
 					.addComponent(btnNewButton_2)
 					.addGap(34))
@@ -175,7 +188,7 @@ public class ItemSelector extends JFrame {
 					.addGroup(gl_contentPane.createParallelGroup(Alignment.LEADING)
 						.addGroup(gl_contentPane.createParallelGroup(Alignment.BASELINE)
 							.addComponent(lblNewLabel_3)
-							.addComponent(textField, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
+							.addComponent(deletenumberfield, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
 							.addComponent(btnNewButton_2))
 						.addGroup(gl_contentPane.createSequentialGroup()
 							.addGroup(gl_contentPane.createParallelGroup(Alignment.BASELINE)
@@ -213,7 +226,7 @@ public class ItemSelector extends JFrame {
 		
 		table.setModel(listitemmodel);
 		
-		table.getColumnModel().getColumn(0).setPreferredWidth(81);
+		table.getColumnModel().getColumn(0).setPreferredWidth(20);
 		table.getColumnModel().getColumn(1).setPreferredWidth(150);
 		table.getColumnModel().getColumn(2).setPreferredWidth(62);
 		scrollPane.setViewportView(table);
@@ -240,7 +253,7 @@ public class ItemSelector extends JFrame {
 		//ADD DATA HERE
 		listitemmodel.setRowCount(0);
 		for(int i = 0; i < Main.getitems().size(); i++) {			
-			listitemmodel.addRow(new Object[]{Main.getitems().indexOf(Main.getitems().get(i)), "OK", "Quantity", "DJDK"});
+			listitemmodel.addRow(new Object[]{Main.getitems().get(i).getitemnumber(), Main.getitems().get(i).getitemname(), Main.getitems().get(i).getquantity(), "0"});
 		}
 	}
 }
