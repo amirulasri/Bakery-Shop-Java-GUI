@@ -41,6 +41,8 @@ public class ItemSelector extends JFrame {
 	private JTable table;
 	private JTextField deletenumberfield;
 	DefaultTableModel listitemmodel;
+	private String orderid;
+	
 
 	/**
 	 * Create the frame.
@@ -51,6 +53,8 @@ public class ItemSelector extends JFrame {
 	}
 
 	public ItemSelector(final String orderid) throws IOException {
+		this.orderid = orderid;
+		
 		setIconImage(Toolkit.getDefaultToolkit().getImage(ItemSelector.class.getResource("/main/logo/logo.png")));
 		setTitle("Bakery Shop");
 		setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
@@ -115,7 +119,7 @@ public class ItemSelector extends JFrame {
 					quantityno = (Integer) quantity.getValue();
 					
 					if(selecteditem != 0) {
-						Main.getitems().add(new Itemsclass(NewOrder.getorderid(), lastitemnumber, String.valueOf(itemcombobox.getSelectedItem()), (Integer)quantity.getValue()));
+						Main.getitems().add(new Itemsclass(orderid, lastitemnumber, String.valueOf(itemcombobox.getSelectedItem()), (Integer)quantity.getValue()));
 						showdata();
 					}else {
 						JOptionPane.showMessageDialog(null, "Please select item", "No item selected", JOptionPane.ERROR_MESSAGE);
@@ -258,8 +262,10 @@ public class ItemSelector extends JFrame {
 		listitemmodel.setRowCount(0);
 		listitemmodel.fireTableDataChanged();
 		for(int i = 0; i < Main.getitems().size(); i++) {
-			System.out.println(Main.getitems().get(i).getorderid());			
-			listitemmodel.addRow(new Object[]{Main.getitems().get(i).getitemnumber(), Main.getitems().get(i).getorderid(), Main.getitems().get(i).getquantity(), "0"});
+			if(String.valueOf(Main.getitems().get(i).getorderid()).equals(orderid)) {				
+				System.out.println(Main.getitems().get(i).getorderid());
+				listitemmodel.addRow(new Object[]{Main.getitems().get(i).getitemnumber(), Main.getitems().get(i).getorderid(), Main.getitems().get(i).getquantity(), "0"});
+			}
 		}
 	}
 	

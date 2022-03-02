@@ -125,26 +125,30 @@ public class Cashierframe extends JFrame {
 				{
 				    
 				}else {
-					NewOrder neworderframe;
-					try {
+					boolean duplicateorderid = containsOrderId(orderid);
+					if(duplicateorderid) {
+						JOptionPane.showMessageDialog(null, "The Order ID you entered exists. Enter another new Order ID", "Duplicate Order ID", JOptionPane.ERROR_MESSAGE);
+					}else {
+						System.out.println("NOT FOUND");
+						Date date = new Date();
 						
-						boolean duplicateorderid = containsOrderId(orderid);
-						if(duplicateorderid) {
-							JOptionPane.showMessageDialog(null, "The Order ID you entered exists. Enter another new Order ID", "Duplicate Order ID", JOptionPane.ERROR_MESSAGE);
-						}else {
-							System.out.println("NOT FOUND");
-							Date date = new Date();
-							
-							Main.getorders().add(new Ordersclass(orderid, newdateformat.format(date), newtimeformat.format(date)));
-							
-							neworderframe = new NewOrder(orderid);
-							neworderframe.setVisible(true);						
-						}
+						Main.getorders().add(new Ordersclass(orderid, newdateformat.format(date), newtimeformat.format(date)));
 						
 						
-					} catch (IOException e1) {
-						// TODO Auto-generated catch block
-						e1.printStackTrace();
+						new Thread(new Runnable() {
+							 
+					        @Override
+					        public void run() {
+					        	try {
+									new NewOrder(orderid)
+									.setVisible(true);			
+								} catch (IOException e) {
+									// TODO Auto-generated catch block
+									e.printStackTrace();
+								}
+					        }
+					    })
+					    .start();
 					}
 				}
 			}

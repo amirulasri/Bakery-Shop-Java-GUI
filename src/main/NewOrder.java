@@ -11,8 +11,6 @@ import java.awt.Font;
 import java.awt.Color;
 import java.awt.Toolkit;
 import java.io.IOException;
-import java.util.ArrayList;
-import java.util.Iterator;
 
 import javax.swing.ImageIcon;
 import javax.swing.JTextField;
@@ -31,9 +29,7 @@ public class NewOrder extends JFrame {
 	private JTextField textField_1;
 	public JLabel lblNewLabel_2;
 	static private String orderid;
-	private JTextField textField_2;
-
-	ItemSelector itemselect;
+	private JTextField textField_2;	
 	/**
 	 * Create the frame.
 	 * 
@@ -45,6 +41,7 @@ public class NewOrder extends JFrame {
 	}
 
 	public NewOrder(String orderid) throws IOException {
+		ItemSelector itemselector = new ItemSelector(orderid);
 		addWindowListener(new WindowAdapter() {
 			@Override
 			public void windowClosed(WindowEvent e) {
@@ -162,13 +159,7 @@ public class NewOrder extends JFrame {
 		JButton btnNewButton_1 = new JButton("Open Order Item Manager");
 		btnNewButton_1.addMouseListener(new MouseAdapter() {
 			public void mouseClicked(MouseEvent e) {
-				try {
-					itemselect = new ItemSelector(orderid);
-				} catch (IOException e1) {
-					// TODO Auto-generated catch block
-					e1.printStackTrace();
-				}
-				itemselect.setVisible(true);
+				itemselector.setVisible(true);
 			}
 		});
 		
