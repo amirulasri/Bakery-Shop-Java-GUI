@@ -260,7 +260,6 @@ public class ItemSelector extends JFrame {
 	private void showdata() {
 		//ADD DATA HERE
 		listitemmodel.setRowCount(0);
-		listitemmodel.fireTableDataChanged();
 		for(int i = 0; i < Main.getitems().size(); i++) {
 			if(String.valueOf(Main.getitems().get(i).getorderid()).equals(orderid)) {				
 				System.out.println(Main.getitems().get(i).getorderid());
