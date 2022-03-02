@@ -25,11 +25,11 @@ import javax.swing.JCheckBox;
 public class NewOrder extends JFrame {
 
 	private JPanel contentPane;
-	private JTextField textField;
-	private JTextField textField_1;
+	private JTextField custnamefield;
+	private JTextField phonenofield;
 	public JLabel lblNewLabel_2;
 	static private String orderid;
-	private JTextField textField_2;	
+	private JTextField emailfield;	
 	/**
 	 * Create the frame.
 	 * 
@@ -45,6 +45,7 @@ public class NewOrder extends JFrame {
 		addWindowListener(new WindowAdapter() {
 			@Override
 			public void windowClosed(WindowEvent e) {
+				itemselector.dispose();
 			}
 			@Override
 			public void windowClosing(WindowEvent e) {
@@ -142,16 +143,19 @@ public class NewOrder extends JFrame {
 		);
 		panel_2.setLayout(gl_panel_2);
 
-		textField = new JTextField();
-		textField.setColumns(10);
+		custnamefield = new JTextField();
+		custnamefield.setColumns(10);
 
-		textField_1 = new JTextField();
-		textField_1.setColumns(10);
+		phonenofield = new JTextField();
+		phonenofield.setColumns(10);
 
 		JButton btnNewButton = new JButton("Save");
 		btnNewButton.addMouseListener(new MouseAdapter() {
 			@Override
 			public void mouseClicked(MouseEvent e) {
+				String customername = custnamefield.getText();
+				String phoneno = phonenofield.getText();
+				String email = emailfield.getText();
 				dispose();
 			}
 		});
@@ -163,10 +167,10 @@ public class NewOrder extends JFrame {
 			}
 		});
 		
-		textField_2 = new JTextField();
-		textField_2.setColumns(10);
+		emailfield = new JTextField();
+		emailfield.setColumns(10);
 		
-		JCheckBox chckbxNewCheckBox = new JCheckBox("Yes");
+		JCheckBox regularcustomercheck = new JCheckBox("Yes");
 		GroupLayout gl_panel_1 = new GroupLayout(panel_1);
 		gl_panel_1.setHorizontalGroup(
 			gl_panel_1.createParallelGroup(Alignment.LEADING)
@@ -174,12 +178,12 @@ public class NewOrder extends JFrame {
 					.addComponent(panel_2, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
 					.addGap(18)
 					.addGroup(gl_panel_1.createParallelGroup(Alignment.LEADING)
-						.addComponent(textField, GroupLayout.DEFAULT_SIZE, 698, Short.MAX_VALUE)
-						.addComponent(textField_1, GroupLayout.DEFAULT_SIZE, 698, Short.MAX_VALUE)
+						.addComponent(custnamefield, GroupLayout.DEFAULT_SIZE, 698, Short.MAX_VALUE)
+						.addComponent(phonenofield, GroupLayout.DEFAULT_SIZE, 698, Short.MAX_VALUE)
 						.addComponent(btnNewButton, Alignment.TRAILING, GroupLayout.PREFERRED_SIZE, 88, GroupLayout.PREFERRED_SIZE)
-						.addComponent(textField_2, Alignment.TRAILING, GroupLayout.DEFAULT_SIZE, 698, Short.MAX_VALUE)
+						.addComponent(emailfield, Alignment.TRAILING, GroupLayout.DEFAULT_SIZE, 698, Short.MAX_VALUE)
 						.addComponent(btnNewButton_1)
-						.addComponent(chckbxNewCheckBox))
+						.addComponent(regularcustomercheck))
 					.addContainerGap())
 		);
 		gl_panel_1.setVerticalGroup(
@@ -187,15 +191,15 @@ public class NewOrder extends JFrame {
 				.addComponent(panel_2, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
 				.addGroup(gl_panel_1.createSequentialGroup()
 					.addGap(42)
-					.addComponent(textField, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
+					.addComponent(custnamefield, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
 					.addGap(18)
-					.addComponent(textField_1, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
+					.addComponent(phonenofield, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
 					.addGap(18)
-					.addComponent(textField_2, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
+					.addComponent(emailfield, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
 					.addGap(41)
 					.addComponent(btnNewButton_1)
 					.addPreferredGap(ComponentPlacement.RELATED, 27, Short.MAX_VALUE)
-					.addComponent(chckbxNewCheckBox)
+					.addComponent(regularcustomercheck)
 					.addGap(20)
 					.addComponent(btnNewButton)
 					.addContainerGap())

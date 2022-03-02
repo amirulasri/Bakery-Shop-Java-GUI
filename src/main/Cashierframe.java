@@ -184,7 +184,7 @@ public class Cashierframe extends JFrame {
 			new Object[][] {
 			},
 			new String[] {
-				"Name", "Phone No", "E-mail", "Order No", "Total Price"
+				"Name", "Phone No", "E-mail", "Order ID", "Total Price"
 			}
 		));
 		table.getColumnModel().getColumn(0).setPreferredWidth(195);
