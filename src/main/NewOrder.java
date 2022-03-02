@@ -12,6 +12,7 @@ import java.awt.Font;
 import java.awt.Color;
 import java.awt.Toolkit;
 import java.io.IOException;
+import java.text.DecimalFormat;
 
 import javax.swing.ImageIcon;
 import javax.swing.JTextField;
@@ -27,6 +28,8 @@ import javax.swing.JScrollPane;
 import javax.swing.JRadioButton;
 
 public class NewOrder extends JFrame {
+	
+	DecimalFormat priceformatter = new DecimalFormat("#0.00");
 
 	private JPanel contentPane;
 	private JTextField custnamefield;
@@ -41,6 +44,10 @@ public class NewOrder extends JFrame {
 
 	static public String getorderid() {
 		return orderid;
+	}
+	
+	private void orderlistrefresh() {
+		Cashierframe.showdata();
 	}
 
 	public NewOrder(String orderid) throws IOException {
@@ -58,6 +65,7 @@ public class NewOrder extends JFrame {
 		        {
 		            Main.getorders().removeIf(Orders-> Orders.getorderid().equals(orderid));
 		            Main.getitems().removeIf(Items -> Items.getorderid().equals(orderid));
+		            Main.getcustomer().removeIf(Customer -> Customer.getorderid().equals(orderid));
 		            dispose();
 		            System.out.println("ORDER DELETED");
 		        }
@@ -181,14 +189,93 @@ public class NewOrder extends JFrame {
 				String customername = custnamefield.getText();
 				String phoneno = phonenofield.getText();
 				String address = addressfield.getText();
-				String gender = genderselector.getSelection().getActionCommand();
+				String gender = "";
 				boolean regularcustomer = false;
-				if(regularcustomercheck.isSelected()) {					
+				if(regularcustomercheck.isSelected()) {			
 					regularcustomer = true;
 				}
-				System.out.println("Name: " + customername + "\nPhone no: " + phoneno + "\nAddress: " + address + "\nGender: " + gender + "Regular customer: " + regularcustomer);
-				//Main.getcustomer().add(new Customerclass());
-				//dispose();
+				
+				//ERROR HANDLING FOR RADIO GET ACTION COMMAND
+				try {
+					gender = genderselector.getSelection().getActionCommand();
+				}catch (Exception e1) {
+					System.out.println(e1.getMessage());
+				}
+				
+				//PROCESS STATE
+				boolean process = false;
+				
+				//ERROR STATE
+				boolean customernameerror = false;
+				boolean phonenoerror = false;
+				boolean addresserror = false;
+				boolean gendererror = false;
+				boolean quantityerror = false;
+				
+				//CHECK NAME
+				if(customername.isEmpty()) {
+					customernameerror = true;
+				}
+				
+				//CHECK PHONE NO
+				if(phoneno.isEmpty()) {
+					phonenoerror = true;
+				}
+				
+				//CHECK ADDRESS
+				if(address.isEmpty()) {
+					addresserror = true;
+				}
+				
+				//CHECK GENDER
+				if(gender.isEmpty()) {
+					gendererror = true;
+				}
+				
+				//CHECK IF ITEM ADDED
+				int quantitycount = 0;
+				for(int i = 0; i < Main.getitems().size(); i++) {
+					if(String.valueOf(Main.getitems().get(i).getorderid()).equals(orderid)) {				
+						quantitycount = quantitycount + Main.getitems().get(i).getquantity();
+					}
+				}
+				
+				//CHECK QUANTITY ITEMS ADDED
+				if(quantitycount == 0) {
+					quantityerror = true;
+				}
+				
+				//ERROR MESSAGE
+				if(customernameerror || phonenoerror || addresserror || gendererror || quantityerror) {
+					String error = "Check your required field:";
+					if(customernameerror) {
+						error+="\nName is empty";
+					}
+					if(phonenoerror) {
+						error+="\nPhone number is empty";
+					}
+					if(addresserror) {
+						error+="\nAddress is empty";
+					}
+					if(gendererror) {
+						error+="\nGender is empty";
+					}
+					if(quantityerror) {
+						error+="\nItems is empty";
+					}
+					JOptionPane.showMessageDialog(null, error, "Error", JOptionPane.ERROR_MESSAGE);
+				}else {
+					process = true;
+				}
+				
+				//IF TRUE, SAVE THE RECORD
+				if(process == true) {
+					System.out.println("Name: " + customername + "\nPhone no: " + phoneno + "\nAddress: " + address + "\nGender: " + gender + "Regular customer: " + regularcustomer);
+					Main.getcustomer().add(new Customerclass(orderid, customername, phoneno, address, regularcustomer));
+					orderlistrefresh();
+					dispose();
+				}
+				
 			}
 		});
 

@@ -17,6 +17,7 @@ import java.io.BufferedReader;
 import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.io.IOException;
+import java.text.DecimalFormat;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.function.Predicate;
@@ -32,6 +33,8 @@ import javax.swing.SpinnerNumberModel;
 import javax.swing.JTextField;
 
 public class ItemSelector extends JFrame {
+	
+	DecimalFormat priceformatter = new DecimalFormat("#0.00");
 
 	/**
 	 * 
@@ -71,18 +74,22 @@ public class ItemSelector extends JFrame {
 		JScrollPane scrollPane = new JScrollPane();
 
 		// READ ITEM FROM FILE
-		BufferedReader bakerylistinput = null;
-		List<String> bakerylist = new ArrayList<String>();
+		BufferedReader itemlistinput = null;
+		List<String> itemlist = new ArrayList<String>();
+		List<String> itemlistname = new ArrayList<String>();
+		List<Double> priceperitem = new ArrayList<Double>();
+		
 		try {
-			bakerylistinput = new BufferedReader(new FileReader("bakery.txt"));
+			itemlistinput = new BufferedReader(new FileReader("items.txt"));
 			String bakeryitemline = null;
-			bakerylist.add("Select Cake");
-			while ((bakeryitemline = bakerylistinput.readLine()) != null) {
+			itemlist.add("Select Cake");
+			while ((bakeryitemline = itemlistinput.readLine()) != null) {
 				String[] listitemcomma = bakeryitemline.split(",");
-				bakerylist.add(listitemcomma[0] + " RM"+ listitemcomma[1]);
+				itemlist.add(listitemcomma[0] + " RM"+ listitemcomma[1]);
+				itemlistname.add(listitemcomma[0]);
+				priceperitem.add(Double.parseDouble(listitemcomma[1]));
 			}
 		}
-
 		catch (FileNotFoundException e) {
 			// DISABLE WHEN IN WINDOWBUILDER EDITING
 			// JOptionPane.showMessageDialog(null, "Error: File bakery.txt not found. Go to
@@ -90,12 +97,14 @@ public class ItemSelector extends JFrame {
 			System.err.println("Error, file didn't exist.");
 			// System.exit(0);
 		} finally {
-			bakerylistinput.close();
+			itemlistinput.close();
 		}
 
-		String[] bakerylistArray = bakerylist.toArray(new String[] {});
+		String[] itemlistArray = itemlist.toArray(new String[] {});
+		String[] itemlistnameArray = itemlistname.toArray(new String[] {});
+		Double[] priceperitemArray = priceperitem.toArray(new Double[] {});
 		
-		JComboBox itemcombobox = new JComboBox(bakerylistArray);
+		JComboBox itemcombobox = new JComboBox(itemlistArray);
 
 		JSpinner quantity = new JSpinner();
 		quantity.setModel(new SpinnerNumberModel(1, 1, null, 1));
@@ -109,17 +118,23 @@ public class ItemSelector extends JFrame {
 				//ADD ITEMS TO LIST ORDERS FOR CUSTOMER
 				int selecteditem = 0;
 				int quantityno;
-				if(table.getRowCount() > 0) {				
-					lastitemnumber = (int) table.getModel().getValueAt(table.getRowCount() - 1, 0) + 1;
-				}
-				System.out.println("ROW TOTAL: " + lastitemnumber);
+				double totalitemsprice = 0;
+				
+				selecteditem = itemcombobox.getSelectedIndex();
 				
 				try {
-					selecteditem = itemcombobox.getSelectedIndex();
-					quantityno = (Integer) quantity.getValue();
-					
 					if(selecteditem != 0) {
-						Main.getitems().add(new Itemsclass(orderid, lastitemnumber, String.valueOf(itemcombobox.getSelectedItem()), (Integer)quantity.getValue()));
+						if(table.getRowCount() > 0) {				
+							lastitemnumber = (int) table.getModel().getValueAt(table.getRowCount() - 1, 0) + 1;
+						}else {
+							lastitemnumber = 1;
+						}
+						
+						//CALCULATE PRICE FOR SELECTED ITEM AND QUANTITY
+						quantityno = (Integer) quantity.getValue();
+						totalitemsprice = priceperitemArray[selecteditem - 1] * quantityno;
+						Main.getitems().add(new Itemsclass(orderid, lastitemnumber, String.valueOf(itemlistnameArray[selecteditem - 1]), (Integer)quantity.getValue(), totalitemsprice));
+						quantity.setValue(1);
 						showdata();
 					}else {
 						JOptionPane.showMessageDialog(null, "Please select item", "No item selected", JOptionPane.ERROR_MESSAGE);
@@ -140,7 +155,7 @@ public class ItemSelector extends JFrame {
 		btnNewButton_1.addMouseListener(new MouseAdapter() {
 			@Override
 			public void mouseClicked(MouseEvent e) {
-				cleartable();
+				dispose();
 			}
 		});
 		
@@ -155,9 +170,15 @@ public class ItemSelector extends JFrame {
 			@Override
 			public void mouseClicked(MouseEvent e) {
 				//DELETE ITEMS HERE
-				Predicate<Itemsclass> condition2 = p->p.getitemnumber()==Integer.parseInt(deletenumberfield.getText()) && p.orderid == orderid;
-				Main.getitems().removeIf(condition2);
-				showdata();
+				int deletenumber;
+				try {
+					deletenumber = Integer.parseInt(deletenumberfield.getText());
+					Predicate<Itemsclass> condition2 = p->p.getitemnumber()==deletenumber && p.orderid == orderid;
+					Main.getitems().removeIf(condition2);
+					showdata();
+				}catch (Exception e1) {
+					JOptionPane.showMessageDialog(null, "Enter a valid item number", "Invalid Item Number", JOptionPane.ERROR_MESSAGE);
+				}
 			}
 		});
 		GroupLayout gl_contentPane = new GroupLayout(contentPane);
@@ -262,13 +283,8 @@ public class ItemSelector extends JFrame {
 		listitemmodel.setRowCount(0);
 		for(int i = 0; i < Main.getitems().size(); i++) {
 			if(String.valueOf(Main.getitems().get(i).getorderid()).equals(orderid)) {				
-				System.out.println(Main.getitems().get(i).getorderid());
-				listitemmodel.addRow(new Object[]{Main.getitems().get(i).getitemnumber(), Main.getitems().get(i).getorderid(), Main.getitems().get(i).getquantity(), "0"});
+				listitemmodel.addRow(new Object[]{Main.getitems().get(i).getitemnumber(), Main.getitems().get(i).getitemname(), Main.getitems().get(i).getquantity(), "RM " + priceformatter.format(Main.getitems().get(i).gettotalitems())});
 			}
 		}
-	}
-	
-	private void cleartable() {
-		listitemmodel.setRowCount(0);
 	}
 }
