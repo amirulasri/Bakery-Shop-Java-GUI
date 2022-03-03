@@ -270,7 +270,7 @@ public class NewOrder extends JFrame {
 				
 				//IF TRUE, SAVE THE RECORD
 				if(process == true) {
-					System.out.println("Name: " + customername + "\nPhone no: " + phoneno + "\nAddress: " + address + "\nGender: " + gender + "Regular customer: " + regularcustomer);
+					//System.out.println("Name: " + customername + "\nPhone no: " + phoneno + "\nAddress: " + address + "\nGender: " + gender + "Regular customer: " + regularcustomer);
 					Main.getcustomer().add(new Customerclass(orderid, customername, phoneno, address, regularcustomer));
 					orderlistrefresh();
 					dispose();

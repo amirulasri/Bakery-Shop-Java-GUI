@@ -50,6 +50,9 @@ public class Cashierframe extends JFrame {
 					listpricecust = listpricecust + Main.getitems().get(k).gettotalitems();
 				}
 			}
+			if(Main.getcustomer().get(i).getregularcustomer() == true) {
+				listpricecust = listpricecust - (listpricecust * Main.getdiscountvalue());
+			}
 			listordermodel.addRow(new Object[] { Main.getcustomer().get(i).getname(),
 					Main.getcustomer().get(i).getphoneno(), Main.getcustomer().get(i).getorderid(), "RM " + priceformatter.format(listpricecust)});
 

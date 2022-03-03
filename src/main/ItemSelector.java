@@ -45,6 +45,7 @@ public class ItemSelector extends JFrame {
 	private JTextField deletenumberfield;
 	DefaultTableModel listitemmodel;
 	private String orderid;
+	JLabel totalpricedisplay;
 	
 
 	/**
@@ -61,7 +62,7 @@ public class ItemSelector extends JFrame {
 		setIconImage(Toolkit.getDefaultToolkit().getImage(ItemSelector.class.getResource("/main/logo/logo.png")));
 		setTitle("Bakery Shop");
 		setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
-		setBounds(100, 100, 766, 539);
+		setBounds(100, 100, 783, 539);
 		contentPane = new JPanel();
 		contentPane.setBackground(new Color(255, 225, 168));
 		contentPane.setBorder(null);
@@ -181,11 +182,14 @@ public class ItemSelector extends JFrame {
 				}
 			}
 		});
+		
+		totalpricedisplay = new JLabel("Total Price: RM 0");
+		totalpricedisplay.setFont(new Font("Tahoma", Font.BOLD, 15));
 		GroupLayout gl_contentPane = new GroupLayout(contentPane);
 		gl_contentPane.setHorizontalGroup(
-			gl_contentPane.createParallelGroup(Alignment.LEADING)
-				.addComponent(panel, GroupLayout.DEFAULT_SIZE, 734, Short.MAX_VALUE)
-				.addGroup(gl_contentPane.createSequentialGroup()
+			gl_contentPane.createParallelGroup(Alignment.TRAILING)
+				.addComponent(panel, GroupLayout.DEFAULT_SIZE, 750, Short.MAX_VALUE)
+				.addGroup(Alignment.LEADING, gl_contentPane.createSequentialGroup()
 					.addContainerGap()
 					.addGroup(gl_contentPane.createParallelGroup(Alignment.LEADING)
 						.addComponent(lblNewLabel, GroupLayout.PREFERRED_SIZE, 55, GroupLayout.PREFERRED_SIZE)
@@ -196,15 +200,18 @@ public class ItemSelector extends JFrame {
 						.addComponent(itemcombobox, 0, 196, Short.MAX_VALUE))
 					.addGap(18)
 					.addComponent(btnNewButton)
-					.addGap(113)
-					.addComponent(lblNewLabel_3)
-					.addPreferredGap(ComponentPlacement.RELATED)
-					.addComponent(deletenumberfield, GroupLayout.PREFERRED_SIZE, 103, GroupLayout.PREFERRED_SIZE)
-					.addPreferredGap(ComponentPlacement.RELATED)
-					.addComponent(btnNewButton_2)
-					.addGap(34))
+					.addGap(82)
+					.addGroup(gl_contentPane.createParallelGroup(Alignment.LEADING)
+						.addGroup(gl_contentPane.createSequentialGroup()
+							.addComponent(lblNewLabel_3)
+							.addPreferredGap(ComponentPlacement.RELATED)
+							.addComponent(deletenumberfield, GroupLayout.PREFERRED_SIZE, 103, GroupLayout.PREFERRED_SIZE)
+							.addPreferredGap(ComponentPlacement.RELATED)
+							.addComponent(btnNewButton_2))
+						.addComponent(totalpricedisplay))
+					.addGap(90))
 				.addComponent(scrollPane, GroupLayout.DEFAULT_SIZE, 750, Short.MAX_VALUE)
-				.addGroup(Alignment.TRAILING, gl_contentPane.createSequentialGroup()
+				.addGroup(gl_contentPane.createSequentialGroup()
 					.addContainerGap(629, Short.MAX_VALUE)
 					.addComponent(btnNewButton_1, GroupLayout.PREFERRED_SIZE, 111, GroupLayout.PREFERRED_SIZE)
 					.addContainerGap())
@@ -215,10 +222,6 @@ public class ItemSelector extends JFrame {
 					.addComponent(panel, GroupLayout.PREFERRED_SIZE, 73, GroupLayout.PREFERRED_SIZE)
 					.addPreferredGap(ComponentPlacement.UNRELATED)
 					.addGroup(gl_contentPane.createParallelGroup(Alignment.LEADING)
-						.addGroup(gl_contentPane.createParallelGroup(Alignment.BASELINE)
-							.addComponent(lblNewLabel_3)
-							.addComponent(deletenumberfield, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
-							.addComponent(btnNewButton_2))
 						.addGroup(gl_contentPane.createSequentialGroup()
 							.addGroup(gl_contentPane.createParallelGroup(Alignment.BASELINE)
 								.addComponent(itemcombobox, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
@@ -227,8 +230,15 @@ public class ItemSelector extends JFrame {
 							.addPreferredGap(ComponentPlacement.RELATED)
 							.addGroup(gl_contentPane.createParallelGroup(Alignment.BASELINE)
 								.addComponent(quantity, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
-								.addComponent(lblNewLabel_1))))
-					.addGap(31)
+								.addComponent(lblNewLabel_1)))
+						.addGroup(gl_contentPane.createSequentialGroup()
+							.addGroup(gl_contentPane.createParallelGroup(Alignment.BASELINE)
+								.addComponent(lblNewLabel_3)
+								.addComponent(deletenumberfield, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
+								.addComponent(btnNewButton_2))
+							.addPreferredGap(ComponentPlacement.UNRELATED)
+							.addComponent(totalpricedisplay)))
+					.addGap(27)
 					.addComponent(scrollPane, GroupLayout.DEFAULT_SIZE, 301, Short.MAX_VALUE)
 					.addPreferredGap(ComponentPlacement.RELATED)
 					.addComponent(btnNewButton_1)
@@ -278,6 +288,16 @@ public class ItemSelector extends JFrame {
 		showdata();
 	}
 	
+	private void calctotalprice() {
+		double listpricecust = 0;
+		for(int i = 0; i < Main.getitems().size(); i++) {
+			if(String.valueOf(Main.getitems().get(i).getorderid()).equals(orderid)) {				
+				listpricecust = listpricecust + Main.getitems().get(i).gettotalitems();
+			}
+		}
+		totalpricedisplay.setText("Total Price: RM " + priceformatter.format(listpricecust));
+	}
+	
 	private void showdata() {
 		//ADD DATA HERE
 		listitemmodel.setRowCount(0);
@@ -286,5 +306,6 @@ public class ItemSelector extends JFrame {
 				listitemmodel.addRow(new Object[]{Main.getitems().get(i).getitemnumber(), Main.getitems().get(i).getitemname(), Main.getitems().get(i).getquantity(), "RM " + priceformatter.format(Main.getitems().get(i).gettotalitems())});
 			}
 		}
+		calctotalprice();
 	}
 }

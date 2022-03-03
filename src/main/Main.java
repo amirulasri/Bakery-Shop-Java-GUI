@@ -6,6 +6,13 @@ public class Main {
 	static ArrayList<Customerclass> customers = new ArrayList<Customerclass>();
 	static ArrayList<Itemsclass> listitems = new ArrayList<Itemsclass>();
 	static ArrayList<Ordersclass> listorders = new ArrayList<Ordersclass>();
+	
+	//DISCOUNT
+	static private double discount = 0.10;
+	
+	static public double getdiscountvalue() {
+		return discount;
+	}
 
 	public static ArrayList<Customerclass> getcustomer() {
 		return customers;
