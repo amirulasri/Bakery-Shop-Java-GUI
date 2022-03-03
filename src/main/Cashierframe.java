@@ -40,26 +40,34 @@ public class Cashierframe extends JFrame {
 	private JPanel contentPane;
 	private JTable orderlist;
 	static DefaultTableModel listordermodel;
-	
+	private static JButton btnNewButton;
+
 	static DecimalFormat priceformatter = new DecimalFormat("#0.00");
+	static private String orderidmain = null;
 
 	public static void showdata() {
 		listordermodel.setRowCount(0);
 		for (int i = 0; i < Main.getcustomer().size(); i++) {
-			//CALCULATING TOTAL ALL ITEM PRICE
+			// CALCULATING TOTAL ALL ITEM PRICE
 			double listpricecust = 0;
-			for(int k = 0; k < Main.getitems().size(); k++) {
-				if(String.valueOf(Main.getitems().get(k).getorderid()).equals(Main.getcustomer().get(i).getorderid())) {				
+			for (int k = 0; k < Main.getitems().size(); k++) {
+				if (String.valueOf(Main.getitems().get(k).getorderid())
+						.equals(Main.getcustomer().get(i).getorderid())) {
 					listpricecust = listpricecust + Main.getitems().get(k).gettotalitems();
 				}
 			}
-			if(Main.getcustomer().get(i).getregularcustomer() == true) {
+			if (Main.getcustomer().get(i).getregularcustomer() == true) {
 				listpricecust = listpricecust - (listpricecust * Main.getdiscountvalue());
 			}
-			listordermodel.addRow(new Object[] { Main.getcustomer().get(i).getname(),
-					Main.getcustomer().get(i).getphoneno(), Main.getcustomer().get(i).getorderid(), "RM " + priceformatter.format(listpricecust)});
+			listordermodel
+					.addRow(new Object[] { Main.getcustomer().get(i).getname(), Main.getcustomer().get(i).getphoneno(),
+							Main.getcustomer().get(i).getorderid(), "RM " + priceformatter.format(listpricecust) });
 
 		}
+	}
+	
+	static public JButton getbuttoncreate() {
+		return btnNewButton;
 	}
 
 	private boolean containsOrderId(final String orderid) {
@@ -127,12 +135,13 @@ public class Cashierframe extends JFrame {
 			@Override
 			public void mousePressed(MouseEvent e) {
 				if (Desktop.isDesktopSupported()) {
-				    try {
-				        File manual = new File("manual.pdf");
-				        Desktop.getDesktop().open(manual);
-				    } catch (IOException ex) {
-				        // no application registered for PDFs
-				    }
+					try {
+						File manual = new File("manual.pdf");
+						Desktop.getDesktop().open(manual);
+					} catch (IOException ex) {
+						JOptionPane.showMessageDialog(null, "No app found to open this manual", "Error",
+								JOptionPane.ERROR_MESSAGE);
+					}
 				}
 			}
 		});
@@ -143,7 +152,9 @@ public class Cashierframe extends JFrame {
 		mntmNewMenuItem_2.addMouseListener(new MouseAdapter() {
 			@Override
 			public void mousePressed(MouseEvent e) {
-				JOptionPane.showMessageDialog(null, Main.getappname() + "\nDeveloped By: " + Main.getcontributor() + "\nProject SWC2333", "About App", JOptionPane.INFORMATION_MESSAGE);
+				JOptionPane.showMessageDialog(null,
+						Main.getappname() + "\nDeveloped By: " + Main.getcontributor() + "\nProject SWC2333",
+						"About App", JOptionPane.INFORMATION_MESSAGE);
 			}
 		});
 		mntmNewMenuItem_2.setIcon(new ImageIcon(Cashierframe.class.getResource("/main/logo/about.png")));
@@ -161,44 +172,44 @@ public class Cashierframe extends JFrame {
 		lblNewLabel.setForeground(Color.WHITE);
 		lblNewLabel.setFont(new Font("Comic Sans MS", Font.PLAIN, 24));
 
-		JButton btnNewButton = new JButton("New Order");
+		btnNewButton = new JButton("New Order");
 		btnNewButton.setIcon(new ImageIcon(Cashierframe.class.getResource("/main/logo/add.png")));
 		btnNewButton.setFocusable(false);
 		btnNewButton.setBackground(new Color(218, 98, 125));
 		btnNewButton.addMouseListener(new MouseAdapter() {
 			@Override
 			public void mouseClicked(MouseEvent e) {
-				String orderid = JOptionPane.showInputDialog(null, "To create new order, enter new order ID",
-						"Enter new order ID", JOptionPane.INFORMATION_MESSAGE);
-				if (!(orderid == null)) {
-					if(!orderid.isEmpty()) {						
-						boolean duplicateorderid = containsOrderId(orderid);
-						if (duplicateorderid) {
-							JOptionPane.showMessageDialog(null,
-									"The Order ID you entered exists. Enter another new Order ID", "Duplicate Order ID",
-									JOptionPane.ERROR_MESSAGE);
-						} else {
-							System.out.println("NEW OBJECT CREATED");
-							Date date = new Date();
-							
-							Main.getorders()
-							.add(new Ordersclass(orderid, newdateformat.format(date), newtimeformat.format(date)));
-							
-							new Thread(new Runnable() {
+				if(btnNewButton.isEnabled()) {
+					String orderid = JOptionPane.showInputDialog(null, "To create new order, enter new order ID",
+							"Enter new order ID", JOptionPane.INFORMATION_MESSAGE);
+					orderidmain = orderid;
+					NewOrder orderframe = null;
+					try {
+						orderframe = new NewOrder(orderidmain);
+					} catch (IOException e1) {
+						// TODO Auto-generated catch block
+						e1.printStackTrace();
+					}
+					if (!(orderid == null)) {
+						if (!orderid.isEmpty()) {
+							boolean duplicateorderid = containsOrderId(orderid);
+							if (duplicateorderid) {
+								JOptionPane.showMessageDialog(null,
+										"The Order ID you entered exists. Enter another new Order ID", "Duplicate Order ID",
+										JOptionPane.ERROR_MESSAGE);
+							} else {
+								System.out.println("NEW OBJECT CREATED");
+								Date date = new Date();
 								
-								@Override
-								public void run() {
-									try {
-										new NewOrder(orderid).setVisible(true);
-									} catch (IOException e) {
-										// TODO Auto-generated catch block
-										e.printStackTrace();
-									}
-								}
-							}).start();
+								Main.getorders().add(
+										new Ordersclass(orderid, newdateformat.format(date), newtimeformat.format(date), "Unpaid"));
+								orderframe.setVisible(true);
+								btnNewButton.setEnabled(false);
+							}
+						} else {
+							JOptionPane.showMessageDialog(null, "Please enter Order ID", "Empty Order ID field",
+									JOptionPane.ERROR_MESSAGE);
 						}
-					}else {
-						JOptionPane.showMessageDialog(null, "Please enter Order ID", "Empty Order ID field", JOptionPane.ERROR_MESSAGE);
 					}
 				}
 			}

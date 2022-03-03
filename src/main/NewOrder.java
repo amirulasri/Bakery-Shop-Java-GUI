@@ -26,14 +26,12 @@ import javax.swing.JCheckBox;
 import javax.swing.JTextArea;
 import javax.swing.JScrollPane;
 import javax.swing.JRadioButton;
-import javax.swing.event.ChangeListener;
-import javax.swing.event.ChangeEvent;
 import java.awt.event.ItemListener;
 import java.awt.event.ItemEvent;
 
 public class NewOrder extends JFrame {
 	
-	DecimalFormat priceformatter = new DecimalFormat("#0.00");
+	static DecimalFormat priceformatter = new DecimalFormat("#0.00");
 	DecimalFormat discountnumber = new DecimalFormat("#0");
 
 	private JPanel contentPane;
@@ -41,6 +39,7 @@ public class NewOrder extends JFrame {
 	private JTextField phonenofield;
 	public JLabel lblNewLabel_2;
 	static private String orderid;
+	
 	static private JLabel titletotalprice;
 	static private JLabel totalpricedisplay;
 	/**
@@ -56,6 +55,10 @@ public class NewOrder extends JFrame {
 	private void orderlistrefresh() {
 		Cashierframe.showdata();
 	}
+	
+	static public void calctotalprice(double totalprice) {
+		totalpricedisplay.setText("RM " + priceformatter.format(totalprice));
+	}
 
 	public NewOrder(String orderid) throws IOException {
 		ItemSelector itemselector = new ItemSelector(orderid);
@@ -63,6 +66,7 @@ public class NewOrder extends JFrame {
 			@Override
 			public void windowClosed(WindowEvent e) {
 				itemselector.dispose();
+				Cashierframe.getbuttoncreate().setEnabled(true);
 			}
 			@Override
 			public void windowClosing(WindowEvent e) {
@@ -204,7 +208,7 @@ public class NewOrder extends JFrame {
 		genderselector.add(malevalueradio);
 		genderselector.add(femalevalueradio);
 
-		JButton btnNewButton = new JButton("Save");
+		JButton btnNewButton = new JButton("Pay and Save");
 		btnNewButton.addMouseListener(new MouseAdapter() {
 			@Override
 			public void mouseClicked(MouseEvent e) {
@@ -294,6 +298,7 @@ public class NewOrder extends JFrame {
 				if(process == true) {
 					//System.out.println("Name: " + customername + "\nPhone no: " + phoneno + "\nAddress: " + address + "\nGender: " + gender + "Regular customer: " + regularcustomer);
 					Main.getcustomer().add(new Customerclass(orderid, customername, phoneno, address, regularcustomer));
+					Cashierframe.getbuttoncreate().setEnabled(true);
 					orderlistrefresh();
 					dispose();
 				}
@@ -325,8 +330,6 @@ public class NewOrder extends JFrame {
 						.addComponent(scrollPane, GroupLayout.DEFAULT_SIZE, 687, Short.MAX_VALUE)
 						.addComponent(custnamefield, GroupLayout.DEFAULT_SIZE, 687, Short.MAX_VALUE)
 						.addComponent(phonenofield, GroupLayout.DEFAULT_SIZE, 687, Short.MAX_VALUE)
-						.addComponent(btnNewButton, Alignment.TRAILING, GroupLayout.PREFERRED_SIZE, 88, GroupLayout.PREFERRED_SIZE)
-						.addComponent(regularcustomercheck)
 						.addGroup(gl_panel_1.createSequentialGroup()
 							.addComponent(btnNewButton_1)
 							.addGap(131)
@@ -336,7 +339,9 @@ public class NewOrder extends JFrame {
 						.addGroup(gl_panel_1.createSequentialGroup()
 							.addComponent(malevalueradio)
 							.addPreferredGap(ComponentPlacement.UNRELATED)
-							.addComponent(femalevalueradio)))
+							.addComponent(femalevalueradio))
+						.addComponent(btnNewButton, Alignment.TRAILING, GroupLayout.PREFERRED_SIZE, 169, GroupLayout.PREFERRED_SIZE)
+						.addComponent(regularcustomercheck))
 					.addContainerGap())
 		);
 		gl_panel_1.setVerticalGroup(
@@ -354,18 +359,18 @@ public class NewOrder extends JFrame {
 							.addGroup(gl_panel_1.createParallelGroup(Alignment.BASELINE)
 								.addComponent(malevalueradio)
 								.addComponent(femalevalueradio))
-							.addPreferredGap(ComponentPlacement.RELATED, 27, Short.MAX_VALUE)
+							.addGap(29)
 							.addComponent(btnNewButton_1)
 							.addGap(31)
-							.addComponent(regularcustomercheck)
-							.addGap(20)
-							.addComponent(btnNewButton))
+							.addComponent(regularcustomercheck))
 						.addGroup(gl_panel_1.createSequentialGroup()
 							.addGap(52)
 							.addComponent(titletotalprice)
 							.addPreferredGap(ComponentPlacement.RELATED)
-							.addComponent(totalpricedisplay)))
-					.addContainerGap())
+							.addComponent(totalpricedisplay)
+							.addGap(62)
+							.addComponent(btnNewButton)))
+					.addContainerGap(11, Short.MAX_VALUE))
 				.addComponent(panel_2, GroupLayout.DEFAULT_SIZE, GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
 		);
 		
@@ -401,15 +406,5 @@ public class NewOrder extends JFrame {
 				.createSequentialGroup().addGap(21).addComponent(lblNewLabel_2).addContainerGap(19, Short.MAX_VALUE)));
 		panel.setLayout(gl_panel);
 		contentPane.setLayout(gl_contentPane);
-	}
-	
-	static public void calctotalprice() {
-		double listpricecust = 0;
-		for(int i = 0; i < Main.getitems().size(); i++) {
-			if(String.valueOf(Main.getitems().get(i).getorderid()).equals(orderid)) {				
-				listpricecust = listpricecust + Main.getitems().get(i).gettotalitems();
-			}
-		}
-		totalpricedisplay.setText("RM " + listpricecust);
 	}
 }
