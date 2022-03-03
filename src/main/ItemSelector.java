@@ -60,7 +60,7 @@ public class ItemSelector extends JFrame {
 		this.orderid = orderid;
 		
 		setIconImage(Toolkit.getDefaultToolkit().getImage(ItemSelector.class.getResource("/main/logo/logo.png")));
-		setTitle("Bakery Shop");
+		setTitle(Main.getappname());
 		setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
 		setBounds(100, 100, 783, 539);
 		contentPane = new JPanel();

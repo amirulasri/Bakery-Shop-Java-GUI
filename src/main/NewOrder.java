@@ -30,6 +30,7 @@ import javax.swing.JRadioButton;
 public class NewOrder extends JFrame {
 	
 	DecimalFormat priceformatter = new DecimalFormat("#0.00");
+	DecimalFormat discountnumber = new DecimalFormat("#0");
 
 	private JPanel contentPane;
 	private JTextField custnamefield;
@@ -90,7 +91,7 @@ public class NewOrder extends JFrame {
 		} catch (javax.swing.UnsupportedLookAndFeelException ex) {
 			java.util.logging.Logger.getLogger(Main.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
 		}
-		setTitle("Bakery Shop");
+		setTitle(Main.getappname());
 		setIconImage(Toolkit.getDefaultToolkit().getImage(NewOrder.class.getResource("/main/logo/logo.png")));
 		setDefaultCloseOperation(JFrame.DO_NOTHING_ON_CLOSE);
 		setBounds(100, 100, 1023, 587);
@@ -263,7 +264,7 @@ public class NewOrder extends JFrame {
 					if(quantityerror) {
 						error+="\nItems is empty";
 					}
-					JOptionPane.showMessageDialog(null, error, "Error", JOptionPane.ERROR_MESSAGE);
+					JOptionPane.showMessageDialog(null, error, "Error. ID: " + orderid, JOptionPane.ERROR_MESSAGE);
 				}else {
 					process = true;
 				}
@@ -286,6 +287,10 @@ public class NewOrder extends JFrame {
 			}
 		});
 		
+		JLabel lblNewLabel_7 = new JLabel("Total Price with discount " + discountnumber.format((Main.getdiscountvalue()*100)) + "%");
+		lblNewLabel_7.setFont(new Font("Tahoma", Font.BOLD, 16));
+		lblNewLabel_7.setForeground(Color.BLACK);
+		
 		GroupLayout gl_panel_1 = new GroupLayout(panel_1);
 		gl_panel_1.setHorizontalGroup(
 			gl_panel_1.createParallelGroup(Alignment.LEADING)
@@ -297,8 +302,11 @@ public class NewOrder extends JFrame {
 						.addComponent(custnamefield, GroupLayout.DEFAULT_SIZE, 687, Short.MAX_VALUE)
 						.addComponent(phonenofield, GroupLayout.DEFAULT_SIZE, 687, Short.MAX_VALUE)
 						.addComponent(btnNewButton, Alignment.TRAILING, GroupLayout.PREFERRED_SIZE, 88, GroupLayout.PREFERRED_SIZE)
-						.addComponent(btnNewButton_1)
 						.addComponent(regularcustomercheck)
+						.addGroup(gl_panel_1.createSequentialGroup()
+							.addComponent(btnNewButton_1)
+							.addGap(129)
+							.addComponent(lblNewLabel_7))
 						.addGroup(gl_panel_1.createSequentialGroup()
 							.addComponent(malevalueradio)
 							.addPreferredGap(ComponentPlacement.UNRELATED)
@@ -319,13 +327,15 @@ public class NewOrder extends JFrame {
 						.addComponent(malevalueradio)
 						.addComponent(femalevalueradio))
 					.addPreferredGap(ComponentPlacement.RELATED, 28, Short.MAX_VALUE)
-					.addComponent(btnNewButton_1)
+					.addGroup(gl_panel_1.createParallelGroup(Alignment.BASELINE)
+						.addComponent(btnNewButton_1)
+						.addComponent(lblNewLabel_7))
 					.addGap(31)
 					.addComponent(regularcustomercheck)
 					.addGap(20)
 					.addComponent(btnNewButton)
 					.addContainerGap())
-				.addComponent(panel_2, GroupLayout.DEFAULT_SIZE, 337, Short.MAX_VALUE)
+				.addComponent(panel_2, GroupLayout.DEFAULT_SIZE, GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
 		);
 		
 		scrollPane.setViewportView(addressfield);

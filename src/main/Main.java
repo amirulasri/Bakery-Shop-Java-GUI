@@ -7,8 +7,13 @@ public class Main {
 	static ArrayList<Itemsclass> listitems = new ArrayList<Itemsclass>();
 	static ArrayList<Ordersclass> listorders = new ArrayList<Ordersclass>();
 	
-	//DISCOUNT
+	//CONFIGURATION
 	static private double discount = 0.10;
+	static private String appname = "Bakery Shop";
+	
+	static public String getappname() {
+		return appname;
+	}
 	
 	static public double getdiscountvalue() {
 		return discount;

@@ -10,6 +10,7 @@ import javax.swing.LayoutStyle.ComponentPlacement;
 import javax.swing.JButton;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
+import java.io.File;
 import java.io.IOException;
 import java.util.Iterator;
 import java.awt.Font;
@@ -18,6 +19,8 @@ import javax.swing.JTable;
 import javax.swing.table.DefaultTableModel;
 import javax.swing.JScrollPane;
 import java.awt.Cursor;
+import java.awt.Desktop;
+
 import javax.swing.JMenuBar;
 import javax.swing.JMenu;
 import javax.swing.JMenuItem;
@@ -77,7 +80,7 @@ public class Cashierframe extends JFrame {
 			public void windowClosing(WindowEvent e) {
 				String selectorbutton[] = { "Yes", "No" };
 				int PromptResult = JOptionPane.showOptionDialog(null,
-						"Are you sure you want to exit?. All saved order will be lost.", "Exit Order Window",
+						"Are you sure you want to exit?. All saved order will be lost.", "Exit " + Main.getappname(),
 						JOptionPane.DEFAULT_OPTION, JOptionPane.WARNING_MESSAGE, null, selectorbutton,
 						selectorbutton[1]);
 				if (PromptResult == JOptionPane.YES_OPTION) {
@@ -86,7 +89,7 @@ public class Cashierframe extends JFrame {
 			}
 		});
 		displaydata();
-		setTitle("Bakery Shop");
+		setTitle(Main.getappname());
 		try {
 			for (javax.swing.UIManager.LookAndFeelInfo info : javax.swing.UIManager.getInstalledLookAndFeels()) {
 				if ("Windows".equals(info.getName())) {
@@ -109,17 +112,30 @@ public class Cashierframe extends JFrame {
 		JMenuBar menuBar = new JMenuBar();
 		setJMenuBar(menuBar);
 
-		JMenu mnNewMenu = new JMenu("Tools");
+		JMenu mnNewMenu = new JMenu("Order");
 		menuBar.add(mnNewMenu);
 
-		JMenuItem mntmNewMenuItem = new JMenuItem("Settings");
-		mntmNewMenuItem.setIcon(new ImageIcon(Cashierframe.class.getResource("/main/logo/gear.png")));
+		JMenuItem mntmNewMenuItem = new JMenuItem("Receipt");
+		mntmNewMenuItem.setIcon(new ImageIcon(Cashierframe.class.getResource("/main/logo/receipt.png")));
 		mnNewMenu.add(mntmNewMenuItem);
 
 		JMenu mnNewMenu_1 = new JMenu("Help");
 		menuBar.add(mnNewMenu_1);
 
 		JMenuItem mntmNewMenuItem_1 = new JMenuItem("Read manual");
+		mntmNewMenuItem_1.addMouseListener(new MouseAdapter() {
+			@Override
+			public void mousePressed(MouseEvent e) {
+				if (Desktop.isDesktopSupported()) {
+				    try {
+				        File manual = new File("manual.pdf");
+				        Desktop.getDesktop().open(manual);
+				    } catch (IOException ex) {
+				        // no application registered for PDFs
+				    }
+				}
+			}
+		});
 		mntmNewMenuItem_1.setIcon(new ImageIcon(Cashierframe.class.getResource("/main/logo/manual.png")));
 		mnNewMenu_1.add(mntmNewMenuItem_1);
 
@@ -148,33 +164,35 @@ public class Cashierframe extends JFrame {
 			public void mouseClicked(MouseEvent e) {
 				String orderid = JOptionPane.showInputDialog(null, "To create new order, enter new order ID",
 						"Enter new order ID", JOptionPane.INFORMATION_MESSAGE);
-				if (orderid == null || (orderid != null && ("".equals(orderid)))) {
-
-				} else {
-					boolean duplicateorderid = containsOrderId(orderid);
-					if (duplicateorderid) {
-						JOptionPane.showMessageDialog(null,
-								"The Order ID you entered exists. Enter another new Order ID", "Duplicate Order ID",
-								JOptionPane.ERROR_MESSAGE);
-					} else {
-						System.out.println("NEW OBJECT CREATED");
-						Date date = new Date();
-
-						Main.getorders()
-								.add(new Ordersclass(orderid, newdateformat.format(date), newtimeformat.format(date)));
-
-						new Thread(new Runnable() {
-
-							@Override
-							public void run() {
-								try {
-									new NewOrder(orderid).setVisible(true);
-								} catch (IOException e) {
-									// TODO Auto-generated catch block
-									e.printStackTrace();
+				if (!(orderid == null)) {
+					if(!orderid.isEmpty()) {						
+						boolean duplicateorderid = containsOrderId(orderid);
+						if (duplicateorderid) {
+							JOptionPane.showMessageDialog(null,
+									"The Order ID you entered exists. Enter another new Order ID", "Duplicate Order ID",
+									JOptionPane.ERROR_MESSAGE);
+						} else {
+							System.out.println("NEW OBJECT CREATED");
+							Date date = new Date();
+							
+							Main.getorders()
+							.add(new Ordersclass(orderid, newdateformat.format(date), newtimeformat.format(date)));
+							
+							new Thread(new Runnable() {
+								
+								@Override
+								public void run() {
+									try {
+										new NewOrder(orderid).setVisible(true);
+									} catch (IOException e) {
+										// TODO Auto-generated catch block
+										e.printStackTrace();
+									}
 								}
-							}
-						}).start();
+							}).start();
+						}
+					}else {
+						JOptionPane.showMessageDialog(null, "Please enter Order ID", "Empty Order ID field", JOptionPane.ERROR_MESSAGE);
 					}
 				}
 			}

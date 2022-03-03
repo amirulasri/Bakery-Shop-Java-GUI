@@ -25,7 +25,7 @@ public class Welcomeframe extends JFrame {
 	public Welcomeframe() {
 		setUndecorated(true);
 		setResizable(false);
-		setTitle("Cashier");
+		setTitle(Main.getappname());
 		setBounds(100, 100, 765, 387);
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		setLocationRelativeTo(null);
