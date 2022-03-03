@@ -10,9 +10,14 @@ public class Main {
 	//CONFIGURATION
 	static private double discount = 0.10;
 	static private String appname = "Bakery Shop";
+	static private String contributor = "Amirul Asri, Harris Irfan, Sholihin Ilias, Aliff Redzuan, Mifzal Dini";
 	
 	static public String getappname() {
 		return appname;
+	}
+	
+	static public String getcontributor() {
+		return contributor;
 	}
 	
 	static public double getdiscountvalue() {
@@ -40,15 +45,15 @@ public class Main {
 			cashier = new Cashierframe();
 
 			welcomeframe.setVisible(true);
-			Thread.sleep(2000);
+			//Thread.sleep(2000);
 			welcomeframe.progressBar.setVisible(true);
 			try {
 				for (int i = 0; i <= 100; i += 4) {
-					Thread.sleep(20);
+					Thread.sleep(10);
 					welcomeframe.progressBar.setValue(i);
 					welcomeframe.lblNewLabel_3.setText("Welcome! Starting up " + i + "%");
 				}
-				Thread.sleep(1000);
+				//Thread.sleep(1000);
 				welcomeframe.setVisible(false);
 				cashier.setVisible(true);
 			} catch (Exception e) {

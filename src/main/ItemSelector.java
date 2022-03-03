@@ -51,10 +51,6 @@ public class ItemSelector extends JFrame {
 	/**
 	 * Create the frame.
 	 */
-	
-	private boolean containsOrderIdAndNumber(final String orderid){		
-	    return Main.getitems().stream().filter(order -> order.getorderid().equals(orderid)).findFirst().isPresent();
-	}
 
 	public ItemSelector(final String orderid) throws IOException {
 		this.orderid = orderid;
@@ -143,6 +139,7 @@ public class ItemSelector extends JFrame {
 				}catch(Exception error) {
 					System.out.println("Error: " + error);
 				}
+				calctotalprice();
 			}
 		});
 		
@@ -296,6 +293,7 @@ public class ItemSelector extends JFrame {
 			}
 		}
 		totalpricedisplay.setText("Total Price: RM " + priceformatter.format(listpricecust));
+		NewOrder.calctotalprice();
 	}
 	
 	private void showdata() {
@@ -306,6 +304,5 @@ public class ItemSelector extends JFrame {
 				listitemmodel.addRow(new Object[]{Main.getitems().get(i).getitemnumber(), Main.getitems().get(i).getitemname(), Main.getitems().get(i).getquantity(), "RM " + priceformatter.format(Main.getitems().get(i).gettotalitems())});
 			}
 		}
-		calctotalprice();
 	}
 }

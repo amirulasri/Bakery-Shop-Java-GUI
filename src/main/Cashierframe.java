@@ -140,6 +140,12 @@ public class Cashierframe extends JFrame {
 		mnNewMenu_1.add(mntmNewMenuItem_1);
 
 		JMenuItem mntmNewMenuItem_2 = new JMenuItem("About");
+		mntmNewMenuItem_2.addMouseListener(new MouseAdapter() {
+			@Override
+			public void mousePressed(MouseEvent e) {
+				JOptionPane.showMessageDialog(null, Main.getappname() + "\nDeveloped By: " + Main.getcontributor() + "\nProject SWC2333", "About App", JOptionPane.INFORMATION_MESSAGE);
+			}
+		});
 		mntmNewMenuItem_2.setIcon(new ImageIcon(Cashierframe.class.getResource("/main/logo/about.png")));
 		mnNewMenu_1.add(mntmNewMenuItem_2);
 		contentPane = new JPanel();

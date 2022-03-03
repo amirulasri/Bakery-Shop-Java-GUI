@@ -26,6 +26,10 @@ import javax.swing.JCheckBox;
 import javax.swing.JTextArea;
 import javax.swing.JScrollPane;
 import javax.swing.JRadioButton;
+import javax.swing.event.ChangeListener;
+import javax.swing.event.ChangeEvent;
+import java.awt.event.ItemListener;
+import java.awt.event.ItemEvent;
 
 public class NewOrder extends JFrame {
 	
@@ -37,6 +41,8 @@ public class NewOrder extends JFrame {
 	private JTextField phonenofield;
 	public JLabel lblNewLabel_2;
 	static private String orderid;
+	static private JLabel titletotalprice;
+	static private JLabel totalpricedisplay;
 	/**
 	 * Create the frame.
 	 * 
@@ -171,6 +177,21 @@ public class NewOrder extends JFrame {
 		addressfield.setFont(new Font("Tahoma", Font.PLAIN, 11));
 		
 		JCheckBox regularcustomercheck = new JCheckBox("Yes");
+		regularcustomercheck.addItemListener(new ItemListener() {
+			public void itemStateChanged(ItemEvent e) {
+				boolean regularcustomer = false;
+				if(regularcustomercheck.isSelected()) {			
+					regularcustomer = true;
+				}
+				
+				if(regularcustomer == true) {
+					titletotalprice.setText("Total Price with discount " + discountnumber.format((Main.getdiscountvalue()*100)) + "%");
+					
+				}else {
+					titletotalprice.setText("Total Price");
+				}
+			}
+		});
 		
 		JScrollPane scrollPane = new JScrollPane();
 		
@@ -287,9 +308,12 @@ public class NewOrder extends JFrame {
 			}
 		});
 		
-		JLabel lblNewLabel_7 = new JLabel("Total Price with discount " + discountnumber.format((Main.getdiscountvalue()*100)) + "%");
-		lblNewLabel_7.setFont(new Font("Tahoma", Font.BOLD, 16));
-		lblNewLabel_7.setForeground(Color.BLACK);
+		titletotalprice = new JLabel("Total Price:");
+		titletotalprice.setFont(new Font("SansSerif", Font.BOLD, 16));
+		titletotalprice.setForeground(Color.BLACK);
+		
+		totalpricedisplay = new JLabel("RM 0");
+		totalpricedisplay.setFont(new Font("SansSerif", Font.BOLD, 19));
 		
 		GroupLayout gl_panel_1 = new GroupLayout(panel_1);
 		gl_panel_1.setHorizontalGroup(
@@ -305,8 +329,10 @@ public class NewOrder extends JFrame {
 						.addComponent(regularcustomercheck)
 						.addGroup(gl_panel_1.createSequentialGroup()
 							.addComponent(btnNewButton_1)
-							.addGap(129)
-							.addComponent(lblNewLabel_7))
+							.addGap(131)
+							.addGroup(gl_panel_1.createParallelGroup(Alignment.LEADING)
+								.addComponent(totalpricedisplay)
+								.addComponent(titletotalprice)))
 						.addGroup(gl_panel_1.createSequentialGroup()
 							.addComponent(malevalueradio)
 							.addPreferredGap(ComponentPlacement.UNRELATED)
@@ -322,18 +348,23 @@ public class NewOrder extends JFrame {
 					.addComponent(phonenofield, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
 					.addGap(18)
 					.addComponent(scrollPane, GroupLayout.PREFERRED_SIZE, 58, GroupLayout.PREFERRED_SIZE)
-					.addGap(18)
-					.addGroup(gl_panel_1.createParallelGroup(Alignment.BASELINE)
-						.addComponent(malevalueradio)
-						.addComponent(femalevalueradio))
-					.addPreferredGap(ComponentPlacement.RELATED, 28, Short.MAX_VALUE)
-					.addGroup(gl_panel_1.createParallelGroup(Alignment.BASELINE)
-						.addComponent(btnNewButton_1)
-						.addComponent(lblNewLabel_7))
-					.addGap(31)
-					.addComponent(regularcustomercheck)
-					.addGap(20)
-					.addComponent(btnNewButton)
+					.addGroup(gl_panel_1.createParallelGroup(Alignment.LEADING)
+						.addGroup(gl_panel_1.createSequentialGroup()
+							.addGap(18)
+							.addGroup(gl_panel_1.createParallelGroup(Alignment.BASELINE)
+								.addComponent(malevalueradio)
+								.addComponent(femalevalueradio))
+							.addPreferredGap(ComponentPlacement.RELATED, 27, Short.MAX_VALUE)
+							.addComponent(btnNewButton_1)
+							.addGap(31)
+							.addComponent(regularcustomercheck)
+							.addGap(20)
+							.addComponent(btnNewButton))
+						.addGroup(gl_panel_1.createSequentialGroup()
+							.addGap(52)
+							.addComponent(titletotalprice)
+							.addPreferredGap(ComponentPlacement.RELATED)
+							.addComponent(totalpricedisplay)))
 					.addContainerGap())
 				.addComponent(panel_2, GroupLayout.DEFAULT_SIZE, GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
 		);
@@ -370,5 +401,15 @@ public class NewOrder extends JFrame {
 				.createSequentialGroup().addGap(21).addComponent(lblNewLabel_2).addContainerGap(19, Short.MAX_VALUE)));
 		panel.setLayout(gl_panel);
 		contentPane.setLayout(gl_contentPane);
+	}
+	
+	static public void calctotalprice() {
+		double listpricecust = 0;
+		for(int i = 0; i < Main.getitems().size(); i++) {
+			if(String.valueOf(Main.getitems().get(i).getorderid()).equals(orderid)) {				
+				listpricecust = listpricecust + Main.getitems().get(i).gettotalitems();
+			}
+		}
+		totalpricedisplay.setText("RM " + listpricecust);
 	}
 }

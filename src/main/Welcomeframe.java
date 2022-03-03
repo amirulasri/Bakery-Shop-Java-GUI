@@ -72,33 +72,37 @@ public class Welcomeframe extends JFrame {
 		JLabel lblNewLabel_1 = new JLabel("");
 		lblNewLabel_1.setIcon(new ImageIcon(this.getClass().getResource("/main/logo/logo.png")));
 
-		JLabel lblNewLabel_2 = new JLabel("Bakery Shop");
+		JLabel lblNewLabel_2 = new JLabel(Main.getappname());
 		lblNewLabel_2.setForeground(Color.WHITE);
 		lblNewLabel_2.setFont(new Font("Comic Sans MS", Font.PLAIN, 58));
 
-		JLabel lblNewLabel = new JLabel("By: Amirul Asri, Harris Irfan, Sholihin Ilias, Aliff Redzuan, Mifzal Dini");
+		JLabel lblNewLabel = new JLabel("By: " + Main.getcontributor());
 		lblNewLabel.setForeground(Color.WHITE);
 		lblNewLabel.setFont(new Font("Calibri Light", Font.PLAIN, 17));
 		GroupLayout gl_panel_1 = new GroupLayout(panel_1);
-		gl_panel_1.setHorizontalGroup(gl_panel_1.createParallelGroup(Alignment.LEADING)
-				.addGroup(Alignment.TRAILING,
-						gl_panel_1.createSequentialGroup().addContainerGap(140, Short.MAX_VALUE)
-								.addComponent(lblNewLabel_1).addGap(18)
-								.addComponent(lblNewLabel_2, GroupLayout.PREFERRED_SIZE, 509,
-										GroupLayout.PREFERRED_SIZE)
-								.addGap(19))
-				.addGroup(gl_panel_1.createSequentialGroup().addContainerGap()
-						.addComponent(lblNewLabel, GroupLayout.PREFERRED_SIZE, 509, GroupLayout.PREFERRED_SIZE)
-						.addContainerGap(247, Short.MAX_VALUE)));
-		gl_panel_1
-				.setVerticalGroup(gl_panel_1.createParallelGroup(Alignment.LEADING)
-						.addGroup(gl_panel_1.createSequentialGroup().addGap(98)
-								.addGroup(gl_panel_1.createParallelGroup(Alignment.LEADING)
-										.addComponent(lblNewLabel_2, GroupLayout.PREFERRED_SIZE, 89,
-												GroupLayout.PREFERRED_SIZE)
-										.addComponent(lblNewLabel_1))
-								.addPreferredGap(ComponentPlacement.RELATED, 93, Short.MAX_VALUE).addComponent(
-										lblNewLabel, GroupLayout.PREFERRED_SIZE, 27, GroupLayout.PREFERRED_SIZE)));
+		gl_panel_1.setHorizontalGroup(
+			gl_panel_1.createParallelGroup(Alignment.TRAILING)
+				.addGroup(gl_panel_1.createSequentialGroup()
+					.addGap(140)
+					.addComponent(lblNewLabel_1, GroupLayout.DEFAULT_SIZE, 80, Short.MAX_VALUE)
+					.addGap(18)
+					.addComponent(lblNewLabel_2, GroupLayout.DEFAULT_SIZE, 509, Short.MAX_VALUE)
+					.addGap(19))
+				.addGroup(gl_panel_1.createSequentialGroup()
+					.addContainerGap()
+					.addComponent(lblNewLabel, GroupLayout.PREFERRED_SIZE, 509, GroupLayout.PREFERRED_SIZE)
+					.addContainerGap(247, Short.MAX_VALUE))
+		);
+		gl_panel_1.setVerticalGroup(
+			gl_panel_1.createParallelGroup(Alignment.LEADING)
+				.addGroup(gl_panel_1.createSequentialGroup()
+					.addGap(98)
+					.addGroup(gl_panel_1.createParallelGroup(Alignment.LEADING)
+						.addComponent(lblNewLabel_2, GroupLayout.PREFERRED_SIZE, 89, GroupLayout.PREFERRED_SIZE)
+						.addComponent(lblNewLabel_1))
+					.addPreferredGap(ComponentPlacement.RELATED, 93, Short.MAX_VALUE)
+					.addComponent(lblNewLabel, GroupLayout.PREFERRED_SIZE, 27, GroupLayout.PREFERRED_SIZE))
+		);
 		panel_1.setLayout(gl_panel_1);
 	}
 }
