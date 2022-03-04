@@ -190,6 +190,7 @@ public class Cashierframe extends JFrame {
 						// TODO Auto-generated catch block
 						e1.printStackTrace();
 					}
+
 					if (!(orderid == null)) {
 						if (!orderid.isEmpty()) {
 							boolean duplicateorderid = containsOrderId(orderid);
@@ -205,6 +206,7 @@ public class Cashierframe extends JFrame {
 										new Ordersclass(orderid, newdateformat.format(date), newtimeformat.format(date), "Unpaid"));
 								orderframe.setVisible(true);
 								btnNewButton.setEnabled(false);
+								orderframe = null;
 							}
 						} else {
 							JOptionPane.showMessageDialog(null, "Please enter Order ID", "Empty Order ID field",

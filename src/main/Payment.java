@@ -23,13 +23,15 @@ import javax.swing.JButton;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
 import java.text.DecimalFormat;
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
 
 public class Payment extends JFrame {
 	
 	static DecimalFormat priceformatter = new DecimalFormat("#0.00");
 
 	private JPanel contentPane;
-	private JTextField textField;
+	private JTextField custpayfield;
 
 	/**
 	 * Create the frame.
@@ -43,6 +45,7 @@ public class Payment extends JFrame {
 		        if(PromptResult==JOptionPane.YES_OPTION)
 		        {
 		            dispose();
+		            //NewOrder.getbuttonpay().setEnabled(true);
 		        }
 			}
 		});
@@ -94,16 +97,16 @@ public class Payment extends JFrame {
 		JLabel lblNewLabel_1_1 = new JLabel("Enter Amount (RM)");
 		lblNewLabel_1_1.setFont(new Font("Tahoma", Font.PLAIN, 14));
 		
-		textField = new JTextField();
-		textField.setFont(new Font("SansSerif", Font.PLAIN, 16));
-		textField.setColumns(10);
+		custpayfield = new JTextField();
+		custpayfield.setFont(new Font("SansSerif", Font.PLAIN, 16));
+		custpayfield.setColumns(10);
 		GroupLayout gl_panel_2_1 = new GroupLayout(panel_2_1);
 		gl_panel_2_1.setHorizontalGroup(
 			gl_panel_2_1.createParallelGroup(Alignment.TRAILING)
 				.addGroup(gl_panel_2_1.createSequentialGroup()
 					.addContainerGap()
 					.addGroup(gl_panel_2_1.createParallelGroup(Alignment.TRAILING)
-						.addComponent(textField, Alignment.LEADING, GroupLayout.DEFAULT_SIZE, 356, Short.MAX_VALUE)
+						.addComponent(custpayfield, Alignment.LEADING, GroupLayout.DEFAULT_SIZE, 356, Short.MAX_VALUE)
 						.addComponent(lblNewLabel_1_1, Alignment.LEADING, GroupLayout.DEFAULT_SIZE, 356, Short.MAX_VALUE))
 					.addContainerGap())
 		);
@@ -113,12 +116,86 @@ public class Payment extends JFrame {
 					.addContainerGap()
 					.addComponent(lblNewLabel_1_1)
 					.addPreferredGap(ComponentPlacement.UNRELATED)
-					.addComponent(textField, GroupLayout.DEFAULT_SIZE, 33, Short.MAX_VALUE)
+					.addComponent(custpayfield, GroupLayout.DEFAULT_SIZE, 33, Short.MAX_VALUE)
 					.addContainerGap())
 		);
 		panel_2_1.setLayout(gl_panel_2_1);
 		
+		
+		JRadioButton creditcardtype = new JRadioButton("Credit Card");
+		creditcardtype.setBackground(new Color(200, 213, 185));
+		JRadioButton cashtype = new JRadioButton("Cash");
+		cashtype.setBackground(new Color(200, 213, 185));
+		JRadioButton debittype = new JRadioButton("Debit");
+		debittype.setBackground(new Color(200, 213, 185));
+		
+		cashtype.setActionCommand("Cash");
+		debittype.setActionCommand("Debit");
+		creditcardtype.setActionCommand("Credit Card");
+		
+		ButtonGroup paymenttypeselector = new ButtonGroup();
+		paymenttypeselector.add(cashtype);
+		paymenttypeselector.add(debittype);
+		paymenttypeselector.add(creditcardtype);
+		
+		
 		JButton btnNewButton = new JButton("Pay");
+		btnNewButton.addMouseListener(new MouseAdapter() {
+			@Override
+			public void mouseClicked(MouseEvent e) {
+				
+				// PROCESS STATE
+				boolean process = false;
+				
+				// ERROR STATE
+				boolean custpayvalueerror = false;
+				boolean paymenttypeerror = false;
+				boolean insufficientbalance = false;
+				
+				double custpayvalue = 0;
+				String paymenttype;
+				
+				//GET PAYMENT TYPE
+				try {
+					paymenttype = paymenttypeselector.getSelection().getActionCommand();
+				}catch(Exception e1) {
+					paymenttypeerror = true;
+					System.out.println("No Value Selected: " + e1.getMessage());
+				}
+				
+				//GET PAY VALUE
+				try {
+					custpayvalue = Double.parseDouble(custpayfield.getText());
+					//CHECK IF PAY VALUE BELOW THAN PRICE
+					if(custpayvalue < payment) {
+						insufficientbalance = true;
+					}
+				}catch(Exception e1) {
+					custpayvalueerror = true;
+					System.out.println("INVALID PAY VALUE: " + e1.getMessage());
+				}
+				
+				// ERROR MESSAGE
+				if (custpayvalueerror || paymenttypeerror || insufficientbalance) {
+					String error = "Payment can't proceed:";
+					if (custpayvalueerror) {
+						error += "\nInvalid pay value";
+					}
+					if (paymenttypeerror) {
+						error += "\nPayment type not selected";
+					}
+					if (insufficientbalance) {
+						error += "\nInsufficient balance";
+					}
+					JOptionPane.showMessageDialog(null, error, "Error Payment. ID: " + orderid, JOptionPane.ERROR_MESSAGE);
+				} else {
+					process = true;
+				}
+				
+				//PAYMENT PROCESS DATA
+				
+			}
+		});
 		btnNewButton.setBackground(new Color(111, 255, 233));
 		btnNewButton.setFont(new Font("SansSerif", Font.PLAIN, 16));
 		GroupLayout gl_contentPane = new GroupLayout(contentPane);
@@ -183,13 +260,6 @@ public class Payment extends JFrame {
 		
 		JLabel lblNewLabel = new JLabel("Choose Payment Type");
 		
-		JRadioButton cashtype = new JRadioButton("Cash");
-		cashtype.setBackground(new Color(200, 213, 185));
-		JRadioButton debittype = new JRadioButton("Debit/Credit Card");
-		debittype.setBackground(new Color(200, 213, 185));
-		ButtonGroup paymenttypeselector = new ButtonGroup();
-		paymenttypeselector.add(cashtype);
-		paymenttypeselector.add(debittype);
 		GroupLayout gl_panel_1 = new GroupLayout(panel_1);
 		gl_panel_1.setHorizontalGroup(
 			gl_panel_1.createParallelGroup(Alignment.LEADING)
@@ -200,8 +270,10 @@ public class Payment extends JFrame {
 						.addGroup(gl_panel_1.createSequentialGroup()
 							.addComponent(cashtype)
 							.addPreferredGap(ComponentPlacement.UNRELATED)
-							.addComponent(debittype)))
-					.addContainerGap(146, Short.MAX_VALUE))
+							.addComponent(debittype)
+							.addPreferredGap(ComponentPlacement.UNRELATED)
+							.addComponent(creditcardtype)))
+					.addContainerGap(527, Short.MAX_VALUE))
 		);
 		gl_panel_1.setVerticalGroup(
 			gl_panel_1.createParallelGroup(Alignment.LEADING)
@@ -211,8 +283,9 @@ public class Payment extends JFrame {
 					.addPreferredGap(ComponentPlacement.UNRELATED)
 					.addGroup(gl_panel_1.createParallelGroup(Alignment.BASELINE)
 						.addComponent(cashtype)
-						.addComponent(debittype))
-					.addContainerGap(21, Short.MAX_VALUE))
+						.addComponent(debittype)
+						.addComponent(creditcardtype))
+					.addContainerGap(12, Short.MAX_VALUE))
 		);
 		panel_1.setLayout(gl_panel_1);
 		contentPane.setLayout(gl_contentPane);

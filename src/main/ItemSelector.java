@@ -173,6 +173,7 @@ public class ItemSelector extends JFrame {
 					deletenumber = Integer.parseInt(deletenumberfield.getText());
 					Predicate<Itemsclass> condition2 = p->p.getitemnumber()==deletenumber && p.orderid == orderid;
 					Main.getitems().removeIf(condition2);
+					calctotalprice();
 					showdata();
 				}catch (Exception e1) {
 					JOptionPane.showMessageDialog(null, "Enter a valid item number", "Invalid Item Number", JOptionPane.ERROR_MESSAGE);
