@@ -37,7 +37,7 @@ public class Receipt extends JFrame {
 		
 		setIconImage(Toolkit.getDefaultToolkit().getImage(Receipt.class.getResource("/main/logo/logo.png")));
 		setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
-		setBounds(100, 100, 914, 559);
+		setBounds(100, 100, 936, 603);
 		contentPane = new JPanel();
 		contentPane.setBackground(new Color(230, 184, 156));
 		setContentPane(contentPane);
@@ -78,7 +78,7 @@ public class Receipt extends JFrame {
 		lblNewLabel_1_2.setForeground(Color.BLACK);
 		lblNewLabel_1_2.setFont(new Font("SansSerif", Font.PLAIN, 16));
 		
-		JLabel orderdatedisplay = new JLabel(orderdata.get(0).getdate());
+		JLabel orderdatedisplay = new JLabel(orderdata.get(0).getdate() + " " + orderdata.get(0).getordertime());
 		orderdatedisplay.setHorizontalAlignment(SwingConstants.RIGHT);
 		orderdatedisplay.setForeground(Color.BLACK);
 		orderdatedisplay.setFont(new Font("SansSerif", Font.PLAIN, 14));
@@ -109,20 +109,28 @@ public class Receipt extends JFrame {
 		lblNewLabel_4_1.setBackground(Color.WHITE);
 		
 		JLabel custpaiddisplay = new JLabel("Customer paid: RM" + priceformatter.format(paymentdata.get(0).getcustpay()));
-		custpaiddisplay.setFont(new Font("Tahoma", Font.PLAIN, 12));
+		custpaiddisplay.setFont(new Font("Tahoma", Font.PLAIN, 14));
 		
 		JLabel balancedisp = new JLabel("Balance: RM" + priceformatter.format(paymentdata.get(0).getcustpay() - paymentdata.get(0).gettotalprice()));
-		balancedisp.setFont(new Font("Tahoma", Font.PLAIN, 12));
+		balancedisp.setFont(new Font("Tahoma", Font.PLAIN, 14));
+		
+		JLabel lblNewLabel_2_1 = new JLabel("Address:");
+		lblNewLabel_2_1.setForeground(Color.BLACK);
+		lblNewLabel_2_1.setFont(new Font("SansSerif", Font.PLAIN, 16));
+		
+		String addressline = "<html>" + customerdata.get(0).getaddress().replaceAll("<","&lt;").replaceAll(">", "&gt;").replaceAll("\n", "<br/>") + "</html>";
+		JLabel addressdisplay = new JLabel(addressline);
+		addressdisplay.setVerticalAlignment(SwingConstants.TOP);
+		addressdisplay.setForeground(Color.BLACK);
+		addressdisplay.setFont(new Font("SansSerif", Font.PLAIN, 14));
 		GroupLayout gl_contentPane = new GroupLayout(contentPane);
 		gl_contentPane.setHorizontalGroup(
 			gl_contentPane.createParallelGroup(Alignment.LEADING)
-				.addComponent(panel, GroupLayout.DEFAULT_SIZE, GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+				.addComponent(panel, GroupLayout.DEFAULT_SIZE, 937, Short.MAX_VALUE)
 				.addGroup(gl_contentPane.createSequentialGroup()
 					.addContainerGap()
 					.addComponent(lblNewLabel_4)
-					.addPreferredGap(ComponentPlacement.RELATED, 604, Short.MAX_VALUE)
-					.addComponent(lblNewLabel_4_2, GroupLayout.PREFERRED_SIZE, 137, GroupLayout.PREFERRED_SIZE)
-					.addContainerGap())
+					.addContainerGap(790, Short.MAX_VALUE))
 				.addGroup(gl_contentPane.createSequentialGroup()
 					.addContainerGap()
 					.addGroup(gl_contentPane.createParallelGroup(Alignment.LEADING)
@@ -133,35 +141,40 @@ public class Receipt extends JFrame {
 						.addGroup(gl_contentPane.createSequentialGroup()
 							.addComponent(lblNewLabel_2)
 							.addPreferredGap(ComponentPlacement.UNRELATED)
-							.addComponent(phonenodisplay, GroupLayout.PREFERRED_SIZE, 207, GroupLayout.PREFERRED_SIZE)))
-					.addPreferredGap(ComponentPlacement.RELATED, 278, Short.MAX_VALUE)
-					.addGroup(gl_contentPane.createParallelGroup(Alignment.LEADING, false)
+							.addComponent(phonenodisplay, GroupLayout.PREFERRED_SIZE, 207, GroupLayout.PREFERRED_SIZE))
 						.addGroup(gl_contentPane.createSequentialGroup()
-							.addComponent(lblNewLabel_1_2)
-							.addPreferredGap(ComponentPlacement.UNRELATED)
-							.addComponent(orderdatedisplay, GroupLayout.PREFERRED_SIZE, 123, GroupLayout.PREFERRED_SIZE))
-						.addGroup(gl_contentPane.createSequentialGroup()
-							.addComponent(lblNewLabel_1_2_1, GroupLayout.PREFERRED_SIZE, 82, GroupLayout.PREFERRED_SIZE)
-							.addPreferredGap(ComponentPlacement.RELATED, GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-							.addComponent(orderiddisplay, GroupLayout.PREFERRED_SIZE, 82, GroupLayout.PREFERRED_SIZE))
-						.addGroup(gl_contentPane.createSequentialGroup()
-							.addComponent(lblNewLabel_1_2_2, GroupLayout.PREFERRED_SIZE, 113, GroupLayout.PREFERRED_SIZE)
+							.addComponent(lblNewLabel_2_1, GroupLayout.PREFERRED_SIZE, 73, GroupLayout.PREFERRED_SIZE)
 							.addPreferredGap(ComponentPlacement.RELATED)
-							.addComponent(paymenttypedisplay, GroupLayout.DEFAULT_SIZE, GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
-					.addContainerGap())
-				.addComponent(scrollPane, GroupLayout.DEFAULT_SIZE, 898, Short.MAX_VALUE)
+							.addComponent(addressdisplay, GroupLayout.PREFERRED_SIZE, 465, GroupLayout.PREFERRED_SIZE)))
+					.addGap(49)
+					.addGroup(gl_contentPane.createParallelGroup(Alignment.LEADING)
+						.addGroup(gl_contentPane.createSequentialGroup()
+							.addGap(31)
+							.addGroup(gl_contentPane.createParallelGroup(Alignment.LEADING)
+								.addComponent(lblNewLabel_1_2)
+								.addComponent(lblNewLabel_1_2_1, GroupLayout.PREFERRED_SIZE, 82, GroupLayout.PREFERRED_SIZE)
+								.addComponent(lblNewLabel_1_2_2, GroupLayout.PREFERRED_SIZE, 113, GroupLayout.PREFERRED_SIZE))
+							.addGap(71)
+							.addGroup(gl_contentPane.createParallelGroup(Alignment.TRAILING)
+								.addComponent(paymenttypedisplay, GroupLayout.PREFERRED_SIZE, 96, GroupLayout.PREFERRED_SIZE)
+								.addComponent(orderiddisplay, GroupLayout.PREFERRED_SIZE, 82, GroupLayout.PREFERRED_SIZE)))
+						.addGroup(gl_contentPane.createSequentialGroup()
+							.addGap(100)
+							.addGroup(gl_contentPane.createParallelGroup(Alignment.TRAILING)
+								.addComponent(lblNewLabel_4_2, GroupLayout.PREFERRED_SIZE, 137, GroupLayout.PREFERRED_SIZE)
+								.addComponent(orderdatedisplay, GroupLayout.PREFERRED_SIZE, 209, GroupLayout.PREFERRED_SIZE))))
+					.addGap(23))
 				.addGroup(gl_contentPane.createSequentialGroup()
 					.addContainerGap()
 					.addComponent(lblNewLabel_4_1, GroupLayout.PREFERRED_SIZE, 289, GroupLayout.PREFERRED_SIZE)
-					.addContainerGap(599, Short.MAX_VALUE))
+					.addContainerGap(638, Short.MAX_VALUE))
+				.addComponent(scrollPane, GroupLayout.DEFAULT_SIZE, 937, Short.MAX_VALUE)
 				.addGroup(gl_contentPane.createSequentialGroup()
 					.addContainerGap()
-					.addComponent(custpaiddisplay)
-					.addContainerGap(761, Short.MAX_VALUE))
-				.addGroup(gl_contentPane.createSequentialGroup()
-					.addContainerGap()
-					.addComponent(balancedisp, GroupLayout.PREFERRED_SIZE, 127, GroupLayout.PREFERRED_SIZE)
-					.addContainerGap(761, Short.MAX_VALUE))
+					.addGroup(gl_contentPane.createParallelGroup(Alignment.TRAILING, false)
+						.addComponent(custpaiddisplay, Alignment.LEADING, GroupLayout.DEFAULT_SIZE, GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+						.addComponent(balancedisp, Alignment.LEADING, GroupLayout.DEFAULT_SIZE, 598, Short.MAX_VALUE))
+					.addContainerGap(329, Short.MAX_VALUE))
 		);
 		gl_contentPane.setVerticalGroup(
 			gl_contentPane.createParallelGroup(Alignment.LEADING)
@@ -187,14 +200,16 @@ public class Receipt extends JFrame {
 								.addComponent(lblNewLabel_1_2, GroupLayout.PREFERRED_SIZE, 21, GroupLayout.PREFERRED_SIZE))
 							.addPreferredGap(ComponentPlacement.RELATED)
 							.addGroup(gl_contentPane.createParallelGroup(Alignment.BASELINE)
-								.addComponent(lblNewLabel_1_2_1, GroupLayout.PREFERRED_SIZE, 21, GroupLayout.PREFERRED_SIZE)
-								.addComponent(orderiddisplay, GroupLayout.PREFERRED_SIZE, 21, GroupLayout.PREFERRED_SIZE))))
+								.addComponent(orderiddisplay, GroupLayout.PREFERRED_SIZE, 21, GroupLayout.PREFERRED_SIZE)
+								.addComponent(lblNewLabel_1_2_1, GroupLayout.PREFERRED_SIZE, 21, GroupLayout.PREFERRED_SIZE))))
 					.addPreferredGap(ComponentPlacement.RELATED)
-					.addGroup(gl_contentPane.createParallelGroup(Alignment.BASELINE)
-						.addComponent(lblNewLabel_1_2_2, GroupLayout.PREFERRED_SIZE, 21, GroupLayout.PREFERRED_SIZE)
-						.addComponent(paymenttypedisplay, GroupLayout.PREFERRED_SIZE, 21, GroupLayout.PREFERRED_SIZE))
-					.addGap(21)
-					.addComponent(scrollPane, GroupLayout.DEFAULT_SIZE, 236, Short.MAX_VALUE)
+					.addGroup(gl_contentPane.createParallelGroup(Alignment.LEADING)
+						.addComponent(paymenttypedisplay, GroupLayout.PREFERRED_SIZE, 21, GroupLayout.PREFERRED_SIZE)
+						.addComponent(lblNewLabel_2_1, GroupLayout.PREFERRED_SIZE, 21, GroupLayout.PREFERRED_SIZE)
+						.addComponent(addressdisplay, GroupLayout.PREFERRED_SIZE, 65, GroupLayout.PREFERRED_SIZE)
+						.addComponent(lblNewLabel_1_2_2, GroupLayout.PREFERRED_SIZE, 21, GroupLayout.PREFERRED_SIZE))
+					.addPreferredGap(ComponentPlacement.RELATED)
+					.addComponent(scrollPane, GroupLayout.DEFAULT_SIZE, 247, Short.MAX_VALUE)
 					.addPreferredGap(ComponentPlacement.RELATED)
 					.addComponent(lblNewLabel_4_1, GroupLayout.PREFERRED_SIZE, 26, GroupLayout.PREFERRED_SIZE)
 					.addPreferredGap(ComponentPlacement.RELATED)
