@@ -195,9 +195,11 @@ public class NewOrder extends JFrame {
 					titletotalprice.setText("Total Price with discount " + discountnumber.format((Main.getdiscountvalue()*100)) + "%");
 					double totalwithdiscount = listpricecust - (listpricecust * Main.getdiscountvalue());
 					totalpricedisplay.setText("RM " + priceformatter.format(totalwithdiscount));
+					finalprice = totalwithdiscount;
 				}else {
 					titletotalprice.setText("Total Price");
 					totalpricedisplay.setText("RM " + priceformatter.format(listpricecust));
+					finalprice = listpricecust;
 				}
 			}
 		});
@@ -306,7 +308,7 @@ public class NewOrder extends JFrame {
 					Cashierframe.getbuttoncreate().setEnabled(true);
 					//orderlistrefresh();
 					//dispose();
-					Payment paymentframe = new Payment(orderid, totalprice);
+					Payment paymentframe = new Payment(orderid, finalprice);
 					paymentframe.setVisible(true);
 				}
 				

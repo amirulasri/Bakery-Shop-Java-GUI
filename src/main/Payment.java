@@ -11,6 +11,8 @@ import javax.swing.GroupLayout;
 import javax.swing.GroupLayout.Alignment;
 import java.awt.Color;
 import javax.swing.JLabel;
+import javax.swing.JOptionPane;
+
 import java.awt.Font;
 import javax.swing.ImageIcon;
 import java.awt.Toolkit;
@@ -18,8 +20,13 @@ import javax.swing.LayoutStyle.ComponentPlacement;
 import javax.swing.JRadioButton;
 import javax.swing.JTextField;
 import javax.swing.JButton;
+import java.awt.event.WindowAdapter;
+import java.awt.event.WindowEvent;
+import java.text.DecimalFormat;
 
 public class Payment extends JFrame {
+	
+	static DecimalFormat priceformatter = new DecimalFormat("#0.00");
 
 	private JPanel contentPane;
 	private JTextField textField;
@@ -28,19 +35,31 @@ public class Payment extends JFrame {
 	 * Create the frame.
 	 */
 	public Payment(String orderid, double payment) {
+		addWindowListener(new WindowAdapter() {
+			@Override
+			public void windowClosing(WindowEvent e) {
+				String selectorbutton[] = {"Yes","No"};
+		        int PromptResult = JOptionPane.showOptionDialog(null,"Cancel payment? You order data still keep until you close Order window. Make a payment by click Pay button on Order window","Exit Payment Window",JOptionPane.DEFAULT_OPTION,JOptionPane.WARNING_MESSAGE,null,selectorbutton,selectorbutton[1]);
+		        if(PromptResult==JOptionPane.YES_OPTION)
+		        {
+		            dispose();
+		        }
+			}
+		});
 		setIconImage(Toolkit.getDefaultToolkit().getImage(Payment.class.getResource("/main/logo/logo.png")));
 		setTitle(Main.getappname());
-		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+		setDefaultCloseOperation(JFrame.DO_NOTHING_ON_CLOSE);
 		setBounds(100, 100, 844, 479);
 		contentPane = new JPanel();
 		contentPane.setBackground(new Color(105, 88, 95));
 		setContentPane(contentPane);
+		setLocationRelativeTo(null);
 		
 		JPanel panel = new JPanel();
 		panel.setBorder(null);
 		panel.setBackground(new Color(140, 47, 57));
 		
-		JLabel lblPayment = new JLabel("Payment");
+		JLabel lblPayment = new JLabel("Payment for Order ID: " + orderid);
 		lblPayment.setIcon(new ImageIcon(Payment.class.getResource("/main/logo/mobile-payment.png")));
 		lblPayment.setForeground(Color.WHITE);
 		lblPayment.setFont(new Font("Comic Sans MS", Font.PLAIN, 17));
@@ -139,7 +158,7 @@ public class Payment extends JFrame {
 		JLabel lblNewLabel_1 = new JLabel("Total");
 		lblNewLabel_1.setFont(new Font("Tahoma", Font.PLAIN, 14));
 		
-		JLabel pricedisplay = new JLabel("RM 0");
+		JLabel pricedisplay = new JLabel("RM " + priceformatter.format(payment));
 		pricedisplay.setFont(new Font("SansSerif", Font.PLAIN, 18));
 		GroupLayout gl_panel_2 = new GroupLayout(panel_2);
 		gl_panel_2.setHorizontalGroup(
