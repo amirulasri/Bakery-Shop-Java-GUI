@@ -133,7 +133,8 @@ public class Cashierframe extends JFrame {
 			@Override
 			public void mousePressed(MouseEvent e) {
 				//GET RECEIPT FROM OLDER ORDER
-				//Receipt receiptframe = new Receipt();
+				
+				Receipt receiptframe = new Receipt();
 			}
 		});
 		mntmNewMenuItem.setIcon(new ImageIcon(Cashierframe.class.getResource("/main/logo/receipt.png")));

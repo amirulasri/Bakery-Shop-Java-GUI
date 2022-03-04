@@ -25,6 +25,7 @@ import java.awt.event.WindowEvent;
 import java.text.DecimalFormat;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
+import javax.swing.SwingConstants;
 
 public class Payment extends JFrame {
 	
@@ -195,7 +196,8 @@ public class Payment extends JFrame {
 				//PAYMENT PROCESS DATA
 				if(process == true) {
 					Main.getpayment().add(new Paymentclass(orderid, paymenttype, payment, custpayvalue));
-					//Receipt receiptframe = new Receipt();
+					Receipt receiptframe = new Receipt(orderid);
+					receiptframe.setVisible(true);
 					Cashierframe.getorderframe().dispose();
 					Cashierframe.showdata();
 					dispose();
@@ -210,15 +212,12 @@ public class Payment extends JFrame {
 				.addComponent(panel, GroupLayout.DEFAULT_SIZE, 828, Short.MAX_VALUE)
 				.addGroup(gl_contentPane.createSequentialGroup()
 					.addContainerGap()
-					.addComponent(panel_2, GroupLayout.PREFERRED_SIZE, 376, GroupLayout.PREFERRED_SIZE)
-					.addContainerGap(442, Short.MAX_VALUE))
-				.addGroup(gl_contentPane.createSequentialGroup()
-					.addContainerGap()
 					.addComponent(panel_1, GroupLayout.DEFAULT_SIZE, 808, Short.MAX_VALUE)
 					.addContainerGap())
 				.addGroup(gl_contentPane.createSequentialGroup()
 					.addContainerGap()
 					.addGroup(gl_contentPane.createParallelGroup(Alignment.TRAILING, false)
+						.addComponent(panel_2, Alignment.LEADING, GroupLayout.DEFAULT_SIZE, GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
 						.addComponent(btnNewButton, Alignment.LEADING, GroupLayout.DEFAULT_SIZE, GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
 						.addComponent(panel_2_1, Alignment.LEADING, GroupLayout.DEFAULT_SIZE, 376, Short.MAX_VALUE))
 					.addContainerGap(442, Short.MAX_VALUE))
