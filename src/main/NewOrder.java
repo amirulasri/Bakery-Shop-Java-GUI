@@ -48,11 +48,6 @@ public class NewOrder extends JFrame {
 	 * 
 	 * @throws IOException
 	 */
-
-	private void orderlistrefresh() {
-		Cashierframe.showdata();
-	}
-
 	static public void calctotalprice(double totalprice) {
 		totalpricedisplay.setText("RM " + priceformatter.format(totalprice));
 		listpricecust = totalprice;

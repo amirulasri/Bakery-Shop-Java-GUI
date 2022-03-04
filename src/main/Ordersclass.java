@@ -14,11 +14,10 @@ public class Ordersclass {
     	statuspaid = null;
     }
     
-    public Ordersclass(String orderid, String date, String time, String statuspaid) {
+    public Ordersclass(String orderid, String date, String time) {
     	this.orderid = orderid;
     	this.date = date;
     	this.time = time;
-    	this.statuspaid = statuspaid;
     }
     
     public void setneworderid(String orderid) {

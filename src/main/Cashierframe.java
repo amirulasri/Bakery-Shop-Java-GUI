@@ -41,6 +41,7 @@ public class Cashierframe extends JFrame {
 	private JTable orderlist;
 	static DefaultTableModel listordermodel;
 	private static JButton btnNewButton;
+	static NewOrder orderframe = null;
 
 	static DecimalFormat priceformatter = new DecimalFormat("#0.00");
 	static private String orderidmain = null;
@@ -64,6 +65,10 @@ public class Cashierframe extends JFrame {
 							Main.getcustomer().get(i).getorderid(), "RM " + priceformatter.format(listpricecust) });
 
 		}
+	}
+	
+	static public NewOrder getorderframe() {
+		return orderframe;
 	}
 	
 	static public JButton getbuttoncreate() {
@@ -124,6 +129,13 @@ public class Cashierframe extends JFrame {
 		menuBar.add(mnNewMenu);
 
 		JMenuItem mntmNewMenuItem = new JMenuItem("Receipt");
+		mntmNewMenuItem.addMouseListener(new MouseAdapter() {
+			@Override
+			public void mousePressed(MouseEvent e) {
+				//GET RECEIPT FROM OLDER ORDER
+				//Receipt receiptframe = new Receipt();
+			}
+		});
 		mntmNewMenuItem.setIcon(new ImageIcon(Cashierframe.class.getResource("/main/logo/receipt.png")));
 		mnNewMenu.add(mntmNewMenuItem);
 
@@ -183,7 +195,6 @@ public class Cashierframe extends JFrame {
 					String orderid = JOptionPane.showInputDialog(null, "To create new order, enter new order ID",
 							"Enter new order ID", JOptionPane.INFORMATION_MESSAGE);
 					orderidmain = orderid;
-					NewOrder orderframe = null;
 					try {
 						orderframe = new NewOrder(orderidmain);
 					} catch (IOException e1) {
@@ -203,10 +214,9 @@ public class Cashierframe extends JFrame {
 								Date date = new Date();
 								
 								Main.getorders().add(
-										new Ordersclass(orderid, newdateformat.format(date), newtimeformat.format(date), "Unpaid"));
+										new Ordersclass(orderid, newdateformat.format(date), newtimeformat.format(date)));
 								orderframe.setVisible(true);
 								btnNewButton.setEnabled(false);
-								orderframe = null;
 							}
 						} else {
 							JOptionPane.showMessageDialog(null, "Please enter Order ID", "Empty Order ID field",

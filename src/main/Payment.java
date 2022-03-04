@@ -153,7 +153,7 @@ public class Payment extends JFrame {
 				boolean insufficientbalance = false;
 				
 				double custpayvalue = 0;
-				String paymenttype;
+				String paymenttype = null;
 				
 				//GET PAYMENT TYPE
 				try {
@@ -177,7 +177,7 @@ public class Payment extends JFrame {
 				
 				// ERROR MESSAGE
 				if (custpayvalueerror || paymenttypeerror || insufficientbalance) {
-					String error = "Payment can't proceed:";
+					String error = "Payment unable to proceed:";
 					if (custpayvalueerror) {
 						error += "\nInvalid pay value";
 					}
@@ -193,7 +193,13 @@ public class Payment extends JFrame {
 				}
 				
 				//PAYMENT PROCESS DATA
-				
+				if(process == true) {
+					Main.getpayment().add(new Paymentclass(orderid, paymenttype, payment, custpayvalue));
+					//Receipt receiptframe = new Receipt();
+					Cashierframe.getorderframe().dispose();
+					Cashierframe.showdata();
+					dispose();
+				}
 			}
 		});
 		btnNewButton.setBackground(new Color(111, 255, 233));

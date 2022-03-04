@@ -36,6 +36,10 @@ public class Main {
 	public static ArrayList<Ordersclass> getorders() {
 		return listorders;
 	}
+	
+	public static ArrayList<Paymentclass> getpayment(){
+		return listpayment;
+	}
 
 	public static void main(String[] args) {
 		Welcomeframe welcomeframe;
