@@ -133,8 +133,24 @@ public class Cashierframe extends JFrame {
 			@Override
 			public void mousePressed(MouseEvent e) {
 				//GET RECEIPT FROM OLDER ORDER
-				
-				Receipt receiptframe = new Receipt();
+				String orderid = JOptionPane.showInputDialog(null, "Enter existence Order ID",
+						"Receipt", JOptionPane.INFORMATION_MESSAGE);
+				if (!(orderid == null)) {
+					if (!orderid.isEmpty()) {
+						boolean duplicateorderid = containsOrderId(orderid);
+						if (duplicateorderid) {
+							Receipt receiptframe = new Receipt(orderid);
+							receiptframe.setVisible(true);
+						} else {
+							JOptionPane.showMessageDialog(null,
+									"The Order ID you entered not found. Refer Order table", "Order ID not found",
+									JOptionPane.ERROR_MESSAGE);
+						}
+					} else {
+						JOptionPane.showMessageDialog(null, "Please enter Order ID", "Empty Order ID field",
+								JOptionPane.ERROR_MESSAGE);
+					}
+				}
 			}
 		});
 		mntmNewMenuItem.setIcon(new ImageIcon(Cashierframe.class.getResource("/main/logo/receipt.png")));
