@@ -284,7 +284,7 @@ public class NewOrder extends JFrame {
 					// System.out.println("Name: " + customername + "\nPhone no: " + phoneno +
 					// "\nAddress: " + address + "\nGender: " + gender + "Regular customer: " +
 					// regularcustomer);
-					Main.getcustomer().add(new Customerclass(orderid, customername, phoneno, address, regularcustomer));
+					Main.getcustomer().add(new Customerclass(orderid, customername, phoneno, address, gender, regularcustomer));
 					Cashierframe.getbuttoncreate().setEnabled(true);
 					// orderlistrefresh();
 					// dispose();
