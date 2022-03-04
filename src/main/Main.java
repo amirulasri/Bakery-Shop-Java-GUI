@@ -6,6 +6,7 @@ public class Main {
 	static ArrayList<Customerclass> customers = new ArrayList<Customerclass>();
 	static ArrayList<Itemsclass> listitems = new ArrayList<Itemsclass>();
 	static ArrayList<Ordersclass> listorders = new ArrayList<Ordersclass>();
+	static ArrayList<Paymentclass> listpayment = new ArrayList<Paymentclass>();
 	
 	//CONFIGURATION
 	static private double discount = 0.10;

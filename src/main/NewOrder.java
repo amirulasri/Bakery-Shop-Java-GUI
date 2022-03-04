@@ -40,6 +40,8 @@ public class NewOrder extends JFrame {
 	public JLabel lblNewLabel_2;
 	static private String orderid;
 	
+	static private double listpricecust = 0;
+	static private double finalprice = 0;
 	static private JLabel titletotalprice;
 	static private JLabel totalpricedisplay;
 	/**
@@ -58,6 +60,7 @@ public class NewOrder extends JFrame {
 	
 	static public void calctotalprice(double totalprice) {
 		totalpricedisplay.setText("RM " + priceformatter.format(totalprice));
+		listpricecust = totalprice;
 	}
 
 	public NewOrder(String orderid) throws IOException {
@@ -190,9 +193,11 @@ public class NewOrder extends JFrame {
 				
 				if(regularcustomer == true) {
 					titletotalprice.setText("Total Price with discount " + discountnumber.format((Main.getdiscountvalue()*100)) + "%");
-					
+					double totalwithdiscount = listpricecust - (listpricecust * Main.getdiscountvalue());
+					totalpricedisplay.setText("RM " + priceformatter.format(totalwithdiscount));
 				}else {
 					titletotalprice.setText("Total Price");
+					totalpricedisplay.setText("RM " + priceformatter.format(listpricecust));
 				}
 			}
 		});
@@ -208,7 +213,7 @@ public class NewOrder extends JFrame {
 		genderselector.add(malevalueradio);
 		genderselector.add(femalevalueradio);
 
-		JButton btnNewButton = new JButton("Pay and Save");
+		JButton btnNewButton = new JButton("Pay");
 		btnNewButton.addMouseListener(new MouseAdapter() {
 			@Override
 			public void mouseClicked(MouseEvent e) {
@@ -299,8 +304,10 @@ public class NewOrder extends JFrame {
 					//System.out.println("Name: " + customername + "\nPhone no: " + phoneno + "\nAddress: " + address + "\nGender: " + gender + "Regular customer: " + regularcustomer);
 					Main.getcustomer().add(new Customerclass(orderid, customername, phoneno, address, regularcustomer));
 					Cashierframe.getbuttoncreate().setEnabled(true);
-					orderlistrefresh();
-					dispose();
+					//orderlistrefresh();
+					//dispose();
+					Payment paymentframe = new Payment(orderid, totalprice);
+					paymentframe.setVisible(true);
 				}
 				
 			}
@@ -317,7 +324,7 @@ public class NewOrder extends JFrame {
 		titletotalprice.setFont(new Font("SansSerif", Font.BOLD, 16));
 		titletotalprice.setForeground(Color.BLACK);
 		
-		totalpricedisplay = new JLabel("RM 0");
+		totalpricedisplay = new JLabel("RM 0.00");
 		totalpricedisplay.setFont(new Font("SansSerif", Font.BOLD, 19));
 		
 		GroupLayout gl_panel_1 = new GroupLayout(panel_1);
