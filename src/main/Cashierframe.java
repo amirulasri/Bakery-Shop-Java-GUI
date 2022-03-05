@@ -227,7 +227,6 @@ public class Cashierframe extends JFrame {
 										"The Order ID you entered exists. Enter another new Order ID", "Duplicate Order ID",
 										JOptionPane.ERROR_MESSAGE);
 							} else {
-								System.out.println("NEW OBJECT CREATED");
 								Date date = new Date();
 								
 								Main.getorders().add(
