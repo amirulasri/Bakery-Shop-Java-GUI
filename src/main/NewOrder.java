@@ -79,6 +79,10 @@ public class NewOrder extends JFrame {
 					Main.getorders().removeIf(Orders -> Orders.getorderid().equals(orderid));
 					Main.getitems().removeIf(Items -> Items.getorderid().equals(orderid));
 					Main.getcustomer().removeIf(Customer -> Customer.getorderid().equals(orderid));
+					if(paymentframe != null) {						
+						paymentframe.dispose();
+						paymentframe = null;
+					}
 					dispose();
 					System.out.println("ORDER DELETED");
 				}
