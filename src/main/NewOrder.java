@@ -286,17 +286,12 @@ public class NewOrder extends JFrame {
 
 				// IF TRUE, SAVE THE RECORD
 				if (process == true) {
-					// System.out.println("Name: " + customername + "\nPhone no: " + phoneno +
-					// "\nAddress: " + address + "\nGender: " + gender + "Regular customer: " +
-					// regularcustomer);
 					boolean duplicateorderid = containsOrderId(orderid);
 					if (duplicateorderid) {
 					} else {						
 						Main.getcustomer().add(new Customerclass(orderid, customername, phoneno, address, gender, regularcustomer));
 					}
 					Cashierframe.getbuttoncreate().setEnabled(true);
-					// orderlistrefresh();
-					// dispose();
 					if(paymentframe == null) {						
 						paymentframe = new Payment(orderid, finalprice);
 						paymentframe.setVisible(true);
