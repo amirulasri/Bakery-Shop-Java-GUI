@@ -291,7 +291,6 @@ public class NewOrder extends JFrame {
 					} else {						
 						Main.getcustomer().add(new Customerclass(orderid, customername, phoneno, address, gender, regularcustomer));
 					}
-					Cashierframe.getbuttoncreate().setEnabled(true);
 					if(paymentframe == null) {						
 						paymentframe = new Payment(orderid, finalprice);
 						paymentframe.setVisible(true);
