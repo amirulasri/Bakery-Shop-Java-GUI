@@ -13,6 +13,7 @@ import java.awt.Color;
 import java.awt.Toolkit;
 import java.io.IOException;
 import java.text.DecimalFormat;
+import java.util.Date;
 
 import javax.swing.ImageIcon;
 import javax.swing.JTextField;
@@ -52,6 +53,10 @@ public class NewOrder extends JFrame {
 		totalpricedisplay.setText("RM " + priceformatter.format(totalprice));
 		listpricecust = totalprice;
 		finalprice = totalprice;
+	}
+	
+	private boolean containsOrderId(final String orderid) {
+		return Main.getcustomer().stream().filter(cust -> cust.getorderid().equals(orderid)).findFirst().isPresent();
 	}
 
 	public NewOrder(String orderid) throws IOException {
@@ -284,7 +289,11 @@ public class NewOrder extends JFrame {
 					// System.out.println("Name: " + customername + "\nPhone no: " + phoneno +
 					// "\nAddress: " + address + "\nGender: " + gender + "Regular customer: " +
 					// regularcustomer);
-					Main.getcustomer().add(new Customerclass(orderid, customername, phoneno, address, gender, regularcustomer));
+					boolean duplicateorderid = containsOrderId(orderid);
+					if (duplicateorderid) {
+					} else {						
+						Main.getcustomer().add(new Customerclass(orderid, customername, phoneno, address, gender, regularcustomer));
+					}
 					Cashierframe.getbuttoncreate().setEnabled(true);
 					// orderlistrefresh();
 					// dispose();
