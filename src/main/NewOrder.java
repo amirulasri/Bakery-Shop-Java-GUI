@@ -42,7 +42,7 @@ public class NewOrder extends JFrame {
 	static private double finalprice = 0;
 	static private JLabel titletotalprice;
 	static private JLabel totalpricedisplay;
-	Payment paymentframe = null;
+	static Payment paymentframe = null;
 
 	/**
 	 * Create the frame.
@@ -57,6 +57,10 @@ public class NewOrder extends JFrame {
 	
 	private boolean containsOrderId(final String orderid) {
 		return Main.getcustomer().stream().filter(cust -> cust.getorderid().equals(orderid)).findFirst().isPresent();
+	}
+	
+	static public void setpaymentframenull() {
+		paymentframe = null;
 	}
 
 	public NewOrder(String orderid) throws IOException {
