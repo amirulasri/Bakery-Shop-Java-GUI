@@ -11,7 +11,7 @@ public class Main {
 	//CONFIGURATION
 	static private double discount = 0.10;
 	static private String appname = "Bakery Shop";
-	static private String contributor = "Amirul Asri, Harris Irfan, Sholihin Ilias, Aliff Redzuan, Mifzal Dini";
+	static private String contributor = "Modified";
 	
 	static public String getappname() {
 		return appname;
