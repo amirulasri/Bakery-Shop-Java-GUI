@@ -9,7 +9,7 @@ public class Main {
 	static ArrayList<Paymentclass> listpayment = new ArrayList<Paymentclass>();
 	
 	//CONFIGURATION
-	static private double discount = 0.10;
+	static private double discount = 0.25;
 	static private String appname = "Bakery Shop";
 	static private String contributor = "Modified";
 	
